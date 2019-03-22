@@ -153,7 +153,7 @@ else
     set background=dark
     colorscheme macvim
 
-    if     s:LINUX
+    if s:LINUX
         set guifont=Operator\ Mono\ Book\ 16
     elseif s:WINDOWS
         set guifont=Operator_Mono_Book:h16
@@ -320,6 +320,7 @@ augroup MyAutocmdGroup
     autocmd VimLeave    *   silent call delete($HOME . "/.viminfo")
     autocmd VimResized  *   silent call s:EntryHook()
     autocmd WinEnter    *   silent call s:EntryHook()
+    autocmd WinLeave    *   silent call s:EntryHook()
     autocmd WinLeave    *   setlocal colorcolumn=0
 augroup END
 
