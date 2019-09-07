@@ -129,7 +129,7 @@ set listchars=tab:»\ ,trail:·,extends:›,precedes:‹
 set mouse=a
 set rulerformat=%16(%6l,\ %-4c\ %P%)
 set shortmess+=mrWc
-set showbreak=›\
+set showbreak=↪\ 
 set spelllang=en_us,en_gb
 set spellsuggest+=4
 set statusline=%F\ \ %q%w%r%m%=%6l,\ %-4c\ %P
