@@ -154,9 +154,9 @@ else
     colorscheme macvim
 
     if s:LINUX
-        set guifont=Operator\ Mono\ Book\ 16
+        set guifont=Operator\ Mono\ Book\ 18
     elseif s:WINDOWS
-        set guifont=Operator_Mono_Book:h16
+        set guifont=Operator_Mono_Book:h12
     endif
 endif
 

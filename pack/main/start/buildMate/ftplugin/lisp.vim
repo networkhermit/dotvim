@@ -11,7 +11,7 @@ if exists("b:build_filetype_lisp")
     finish
 endif
 
-let s:BUILD_OPT = " --noinform --non-interactive --no-sysinit --userinit ~/.fun/minimal.lisp "
+let s:BUILD_OPT = " --noinform --non-interactive --no-sysinit "
 let b:BUILD_CMD = "sbcl ". s:BUILD_OPT . "--load % --eval \"(when (fboundp 'main) (main))\""
 unlet s:BUILD_OPT
 
