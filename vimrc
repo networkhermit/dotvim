@@ -158,7 +158,7 @@ else
     if s:LINUX
         let &guifont = "Operator Mono Book " . s:FONT_SIZE
     elseif s:WINDOWS
-        let &guifont = "Operator Mono Book:h" . s.FONT_SIZE
+        let &guifont = "Operator Mono Book:h" . s:FONT_SIZE
     endif
 endif
 
