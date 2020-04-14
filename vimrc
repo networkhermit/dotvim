@@ -153,10 +153,12 @@ else
     set background=dark
     colorscheme macvim
 
+    let s:FONT_SIZE = has_key(environ(), "FONT_SIZE") ? $FONT_SIZE : 18
+
     if s:LINUX
-        set guifont=Operator\ Mono\ Book\ 18
+        let &guifont = "Operator Mono Book " . s:FONT_SIZE
     elseif s:WINDOWS
-        set guifont=Operator_Mono_Book:h12
+        let &guifont = "Operator Mono Book:h" . s.FONT_SIZE
     endif
 endif
 
