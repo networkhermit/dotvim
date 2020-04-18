@@ -3,7 +3,7 @@
 " Version:     1.0
 " LICENSE:     MIT
 " Modified:    2014-10-24
-" Description: Automation of simple build process.
+" Description: Simple build automation.
 " Maintainer:  vac <vac@muse.sh>
 " ============================================================================
 

@@ -3,7 +3,7 @@
 " Version:     1.0
 " LICENSE:     MIT
 " Modified:    2014-10-24
-" Description: Basic auto-completion for delimiters.
+" Description: Basic delimiter auto-completion.
 " Maintainer:  vac <vac@muse.sh>
 " ============================================================================
 
@@ -77,6 +77,7 @@ endfunction " }}}
 autocmd FileType c          silent call basicDelimit#Init()
 autocmd FileType cpp        silent call basicDelimit#Init()
 autocmd FileType go         silent call basicDelimit#Init()
+autocmd FileType haskell    silent call basicDelimit#Init()
 autocmd FileType java       silent call basicDelimit#Init()
 autocmd FileType javascript silent call basicDelimit#Init()
 autocmd FileType lisp       silent call basicDelimit#Init()

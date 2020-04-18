@@ -1,5 +1,5 @@
 " ============================================================================
-" File:        ftplugin/cpp.vim
+" File:        ftplugin/haskell.vim
 " Version:     1.0
 " LICENSE:     MIT
 " Modified:    2014-10-24
@@ -7,15 +7,15 @@
 " Maintainer:  vac <vac@muse.sh>
 " ============================================================================
 
-if exists("b:build_filetype_cpp")
+if exists("b:build_filetype_haskell")
     finish
 endif
 
-let s:BUILD_OPT = " -O0 -g3 -Wall -Werror -std=c++14 -x c++ -o %< "
-let b:BUILD_CMD = "g++" . s:BUILD_OPT . "% && clang++" . s:BUILD_OPT ."% && ./%<"
-unlet s:BUILD_OPT
+let b:BUILD_CMD = "ghc -O0 -Wall -o %< % && ./%<"
 
 let b:POST_ACTION = []
 call add(b:POST_ACTION, "call delete(expand(\"%<\"))")
+call add(b:POST_ACTION, "call delete(expand(\"%<\") . \".hi\")")
+call add(b:POST_ACTION, "call delete(expand(\"%<\") . \".o\")")
 
-let b:build_filetype_cpp = v:true
+let b:build_filetype_haskell = v:true
