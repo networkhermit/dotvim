@@ -15,7 +15,7 @@ if exists("b:build_filetype_c")
     finish
 endif
 
-let s:BUILD_OPT = " -O0 -g3 -Wall -Werror -std=c11 -x c -o %< "
+let s:BUILD_OPT = " -O0 -g3 -Wall -Werror -std=c18 -x c -o %< "
 let b:BUILD_CMD = "gcc" . s:BUILD_OPT . "% -lm && clang" . s:BUILD_OPT ."% -lm && ./%<"
 unlet s:BUILD_OPT
 
