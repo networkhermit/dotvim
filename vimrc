@@ -165,11 +165,10 @@ endif
 " }}}
 " SECTION:  PLUGIN {{{
 
-let g:PHP_default_indenting           = 1
-let g:PHP_vintage_case_default_indent = 1
-let g:html_indent_script1             = "inc"
-let g:html_indent_style1              = "inc"
-let g:netrw_dirhistmax                = 0
+let g:PHP_default_indenting = 1
+let g:html_indent_script1   = "inc"
+let g:html_indent_style1    = "inc"
+let g:netrw_dirhistmax      = 0
 
 " }}}
 " SECTION:  FUNCTION {{{
