@@ -146,10 +146,17 @@ if s:TERMINAL
     set background=light
     colorscheme default
 
-    highlight ColorColumn  NONE ctermbg=42
-    highlight CursorLine   NONE
-    highlight CursorLineNr NONE            ctermfg=11  cterm=bold
-    highlight LineNr       NONE            ctermfg=240
+    if &t_Co >= 256
+        highlight ColorColumn  NONE ctermbg=42
+        highlight CursorLine   NONE
+        highlight CursorLineNr NONE            ctermfg=11  cterm=bold
+        highlight LineNr       NONE            ctermfg=240
+    else
+        highlight ColorColumn  NONE ctermbg=2
+        highlight CursorLine   NONE
+        highlight CursorLineNr NONE            ctermfg=14  cterm=bold
+        highlight LineNr       NONE            ctermfg=8
+    endif
 else
     set background=dark
     colorscheme macvim
