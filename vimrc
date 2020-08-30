@@ -173,27 +173,6 @@ let g:netrw_dirhistmax      = 0
 
 " }}}
 " SECTION:  FUNCTION {{{
-" SECTION:  BlockData {{{
-
-function! BlockData()
-    let l:lines       = wordcount()["chars"] ? line('$') : 0
-    let l:words       = wordcount()["words"]
-
-    let l:encoding    = empty(&fileencoding) ? &encoding : &fileencoding
-    let l:line_ending = &fileformat
-    let l:buffer_id   = bufnr('%')
-    let l:file_type   = empty(&filetype)     ? "Nil"     : &filetype
-
-    let l:read_only   = &readonly            ? "[RO]"    : ""
-    let l:modifiable  = &modifiable          ? ""        : "[-]"
-    let l:modified    = &modified            ? "[+]"     : ""
-
-    return printf("\t%06d, %06d  %s ¦ %s  #%s  %s%s%s", l:lines, l:words,
-                \ l:encoding, l:line_ending, l:file_type,
-                \ l:read_only, l:modifiable, l:modified)
-endfunction
-
-" }}}
 " SECTION:  EntryHook {{{
 
 function! s:EntryHook()
@@ -206,20 +185,6 @@ function! s:EntryHook()
         let &l:cursorline  = 0
         let &l:number      = 0
     endif
-endfunction
-
-" }}}
-" SECTION:  LocalTime {{{
-
-function! LocalTime()
-    let l:uptime = localtime() - s:STARTUP_TIME
-
-    let l:hour   = l:uptime / 3600
-    let l:minute = l:uptime % 3600 / 60
-    let l:second = l:uptime % 60
-
-    return printf("\t%s, ↑ %02d:%02d", strftime("%A %Y-%m-%d %H:%M"),
-                \ l:hour, l:minute)
 endfunction
 
 " }}}
@@ -251,13 +216,11 @@ nnoremap <silent> <F2>    :split $MYVIMRC<CR>
 nnoremap <silent> <F7>    :call buildMate#start()<CR>
 
 nnoremap <silent> <C-^>   O<Esc>0d$
-nnoremap <silent> <C-H>   :echo LocalTime()<CR>
 nnoremap <silent> <C-J>   <C-W>j
 nnoremap <silent> <C-K>   <C-W>k
 nnoremap <silent> <C-L>   :nohlsearch<CR><C-L>
 nnoremap <silent> <C-N>   :bnext<CR>
 nnoremap <silent> <C-P>   :bprevious<CR>
-nnoremap <silent> <C-G>   :echo BlockData()<CR>
 
 nnoremap <silent> <Up>    <C-U>
 nnoremap <silent> <Down>  <C-D>

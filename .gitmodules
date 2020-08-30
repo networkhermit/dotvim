@@ -1,0 +1,9 @@
+[submodule "pack/dist/start/dracula"]
+	path = pack/dist/start/dracula
+	url = https://github.com/dracula/vim.git
+[submodule "pack/dist/start/nord"]
+	path = pack/dist/start/nord
+	url = https://github.com/arcticicestudio/nord-vim.git
+[submodule "pack/dist/start/vim-airline"]
+	path = pack/dist/start/vim-airline
+	url = https://github.com/vim-airline/vim-airline.git
