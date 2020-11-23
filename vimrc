@@ -159,7 +159,7 @@ if s:TERMINAL
     endif
 else
     set background=dark
-    colorscheme macvim
+    colorscheme nord
 
     let s:FONT_SIZE = has_key(environ(), "FONT_SIZE") ? $FONT_SIZE : 18
 
@@ -285,7 +285,7 @@ augroup MyAutocmdGroup
     autocmd CursorHoldI *   stopinsert
     autocmd FileType    *   setlocal shiftwidth< softtabstop< tabstop<
     autocmd FileType    vim setlocal foldmethod=marker
-    autocmd GUIEnter    *   set columns=80 lines=24
+    autocmd GUIEnter    *   set columns=1024 lines=1024
     autocmd InsertEnter *   setlocal nolist | echo
     autocmd InsertLeave *   setlocal list
     autocmd VimEnter    *   let s:STARTUP_TIME = localtime()
