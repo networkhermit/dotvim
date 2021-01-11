@@ -4,23 +4,19 @@
 
 " PREFACE:  First Breath After Coma {{{
 
-"                         Comforting Sounds -- Mew
+"                             Ode to a Nightingale
+"                                  John Keats
 
-" I don't feel alright in spite of these comforting sounds you make.
-" I don't feel alright because you make promises that you break.
-" Into your house, why don't we share our solitude?
-" Nothing is pure anymore but solitude.
-
-" It's hard to make sense, feels as if I'm sensing you through a lens.
-" If someone else comes, I'd just sit here listening to the drums.
-" Previously I never called it solitude.
-" And probably you know all the dirty shows I've put on.
-" Blunted and exhausted like anyone.
-" Honestly I tried to avoid it. Honestly.
-
-" Back when we were kids, we would always know when to stop.
-" And now all the good kids are messing up.
-" Nobody has gained or accomplished anything.
+" My heart aches, and a drowsy numbness pains
+"   My sense, as though of hemlock I had drunk,
+" Or emptied some dull opiate to the drains
+"   One minute past, and Lethe-wards had sunk:
+" ’Tis not through envy of thy happy lot,
+"   But being too happy in thine happiness,—
+"     That thou, light-winged Dryad of the trees,
+"       In some melodious plot
+"   Of beechen green, and shadows numberless,
+"     Singest of summer in full-throated ease.
 
 " }}}
 
@@ -300,17 +296,23 @@ augroup END
 
 " ENDNOTE:  Who You Are Is Not Enough {{{
 
-"                            Ⅲ -- Athletics
+"                                  Sonnet XIV
+"                             William Shakespeare
 
-" I read your note, and I know just what you want to hear.
-" It hurts less over time, but I'm not getting stronger.
-" I just leave pieces behind.
-" And I can only fall so many times before I'm broke, unrecognizable.
-" Now all I've left to give is the piece that still remains,
-"                                        and you bring the pieces back.
-" Love, it only reconstructs the pain.
-" As time fails to elapse, I'm finding you were everything to me.
-" Now my future and my past are ending tragically the same.
+" Not from the stars do I my judgement pluck;
+" And yet methinks I have astronomy,
+" But not to tell of good or evil luck,
+" Of plagues, of dearths, or seasons’ quality;
+" Nor can I fortune to brief minutes tell,
+" Pointing to each his thunder, rain and wind,
+" Or say with princes if it shall go well,
+" By oft predict that I in heaven find:
+" But from thine eyes my knowledge I derive,
+" And, constant stars, in them I read such art
+" As truth and beauty shall together thrive,
+" If from thyself to store thou wouldst convert;
+"    Or else of thee this I prognosticate:
+"    Thy end is truth’s and beauty’s doom and date.
 
 " }}}
 
