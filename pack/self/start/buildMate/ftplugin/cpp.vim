@@ -11,7 +11,7 @@ if exists("b:build_filetype_cpp")
     finish
 endif
 
-let s:BUILD_OPT = " -O0 -g3 -Wall -Werror -std=c++17 -x c++ -o %< "
+let s:BUILD_OPT = " -O0 -g3 -Wall -Werror -std=c++20 -x c++ -o %< "
 let b:BUILD_CMD = "g++" . s:BUILD_OPT . "% && clang++" . s:BUILD_OPT ."% && ./%<"
 unlet s:BUILD_OPT
 
