@@ -1,3 +1,6 @@
+[submodule "pack/dist/start/colorschemes"]
+	path = pack/dist/start/colorschemes
+	url = https://github.com/vim/colorschemes.git
 [submodule "pack/dist/start/dracula"]
 	path = pack/dist/start/dracula
 	url = https://github.com/dracula/vim.git
