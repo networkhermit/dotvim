@@ -129,7 +129,6 @@ set showbreak=↪\
 set spelllang=en_us,en_gb
 set spellsuggest+=4
 set statusline=%F\ \ %q%w%r%m%=%6l,\ %-4c\ %P
-set t_u7=
 set viminfo+=n~/.viminfo
 set virtualedit=all
 set wildmode^=longest:full
