@@ -7,7 +7,9 @@
 " Maintainer:  vac <vac@muse.sh>
 " ============================================================================
 
-let s:GVIM = has("gui_running")
+scriptencoding utf-8
+
+let s:GVIM = has("gui_running") || (exists("+termguicolors") && &termguicolors)
 
 function! buildMate#start() " {{{
     silent update

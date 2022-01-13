@@ -7,6 +7,8 @@
 " Maintainer:  vac <vac@muse.sh>
 " ============================================================================
 
+scriptencoding utf-8
+
 if exists("g:buildMate_loaded") || &compatible
     finish
 endif

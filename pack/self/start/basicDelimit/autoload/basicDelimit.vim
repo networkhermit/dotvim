@@ -7,6 +7,8 @@
 " Maintainer:  vac <vac@muse.sh>
 " ============================================================================
 
+scriptencoding utf-8
+
 " Initialize Defaults {{{
 
 let s:Parens     = ["{}", "[]", "()"]
