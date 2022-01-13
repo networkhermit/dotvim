@@ -33,7 +33,7 @@ let s:LINUX    = v:false
 let s:TERMINAL = v:false
 let s:WINDOWS  = v:false
 
-if has("gui_running")
+if has("gui_running") || (exists("+termguicolors") && &termguicolors)
     let s:GVIM     = v:true
 else
     let s:TERMINAL = v:true
