@@ -4,7 +4,7 @@
 " LICENSE:     MIT
 " Modified:    2014-10-24
 " Description: Simple build automation.
-" Maintainer:  vac <vac@muse.sh>
+" Maintainer:  vac <vac@bikeshed.dev>
 " ============================================================================
 
 scriptencoding utf-8
