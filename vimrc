@@ -161,9 +161,9 @@ else
     let s:FONT_SIZE = has_key(environ(), "FONT_SIZE") ? $FONT_SIZE : 18
 
     if s:LINUX
-        let &guifont = "Operator Mono Book " . s:FONT_SIZE
+        let &guifont = "Fira Code " . s:FONT_SIZE
     elseif s:WINDOWS
-        let &guifont = "Operator Mono Book:h" . s:FONT_SIZE
+        let &guifont = "Fira Code:h" . s:FONT_SIZE
     endif
 endif
 
