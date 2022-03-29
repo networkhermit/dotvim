@@ -17,11 +17,11 @@ if exists("b:build_filetype_c")
     finish
 endif
 
-let s:BUILD_OPT = " -O0 -g3 -Wall -Werror -std=c18 -x c -o %< "
-let b:BUILD_CMD = "gcc" . s:BUILD_OPT . "% -lm && clang" . s:BUILD_OPT ."% -lm && ./%<"
+let s:BUILD_OPT = " -O0 -g3 -Wall -Werror -std=c18 -x c -o %:r:S "
+let b:BUILD_CMD = "gcc" .. s:BUILD_OPT .. "%:S -lm && clang" .. s:BUILD_OPT .. "%:S -lm && ./%:r:S"
 unlet s:BUILD_OPT
 
-let b:POST_ACTION = []
-call add(b:POST_ACTION, "call delete(expand(\"%<\"))")
+let b:POST_BUILD_ACTION = []
+eval b:POST_BUILD_ACTION->add('call delete(expand("#:r"))')
 
 let b:build_filetype_c = v:true

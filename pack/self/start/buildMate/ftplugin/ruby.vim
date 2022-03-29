@@ -13,6 +13,6 @@ if exists("b:build_filetype_ruby")
     finish
 endif
 
-let b:BUILD_CMD = "ruby -w %"
+let b:BUILD_CMD = "ruby -w %:S"
 
 let b:build_filetype_ruby = v:true

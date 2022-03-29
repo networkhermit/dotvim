@@ -13,6 +13,6 @@ if exists("b:build_filetype_sh")
     finish
 endif
 
-let b:BUILD_CMD = "shellcheck % && bash %"
+let b:BUILD_CMD = "shellcheck %:S && bash %:S"
 
 let b:build_filetype_sh = v:true

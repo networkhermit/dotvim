@@ -13,6 +13,9 @@ if exists("b:build_filetype_python")
     finish
 endif
 
-let b:BUILD_CMD = "python3 -d -W:all -B %"
+let b:FORMATTER = []
+eval b:FORMATTER->add("black --quiet -")
+
+let b:BUILD_CMD = "python3 -d -W:all -B %:S"
 
 let b:build_filetype_python = v:true

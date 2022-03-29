@@ -123,7 +123,7 @@ set foldmethod=syntax
 set foldopen-=hor
 set formatoptions=croqlmB1j
 set guioptions=c
-set listchars=tab:»\ ,trail:·,extends:›,precedes:‹
+set listchars=tab:⇥\ ,trail:␣,extends:›,precedes:‹,nbsp:⍽
 set mouse=a
 set rulerformat=%16(%6l,\ %-4c\ %P%)
 set shortmess+=mrWc
@@ -161,9 +161,9 @@ else
     let s:FONT_SIZE = has_key(environ(), "FONT_SIZE") ? $FONT_SIZE : 18
 
     if s:LINUX
-        let &guifont = "Fira Code " . s:FONT_SIZE
+        let &guifont = "Fira Code " .. s:FONT_SIZE
     elseif s:WINDOWS
-        let &guifont = "Fira Code:h" . s:FONT_SIZE
+        let &guifont = "Fira Code:h" .. s:FONT_SIZE
     endif
 endif
 
@@ -209,7 +209,7 @@ nnoremap <silent> H       8zh
 nnoremap <silent> M       mmzngg=G`mzz
 nnoremap <silent> L       8zl
 
-nnoremap <silent> K       :call buildMate#start()<CR>
+nnoremap <silent> K       :call buildMate#Run()<CR>
 nnoremap <silent> Q       :bwipeout<CR>
 
 nnoremap <silent> -       :setlocal cursorline! number!<CR>
@@ -217,12 +217,12 @@ nnoremap <silent> <CR>    o<Esc>0d$
 nnoremap <silent> <Space> i<Space><Esc>l
 
 nnoremap <silent> <F2>    :split $MYVIMRC<CR>
-nnoremap <silent> <F7>    :call buildMate#start()<CR>
+nnoremap <silent> <F7>    :call buildMate#Run()<CR>
 
 nnoremap <silent> <C-^>   O<Esc>0d$
 nnoremap <silent> <C-J>   <C-W>j
 nnoremap <silent> <C-K>   <C-W>k
-nnoremap <silent> <C-L>   :nohlsearch<CR><C-L>
+nnoremap <silent> <C-L>   :nohlsearch<CR>:diffupdate<CR>:syntax sync fromstart<CR><C-L>
 nnoremap <silent> <C-N>   :bnext<CR>
 nnoremap <silent> <C-P>   :bprevious<CR>
 
@@ -278,6 +278,7 @@ inoremap <silent> <C-Y>   <C-X><C-Y>
 augroup MyAutocmdGroup
     autocmd!
     autocmd BufWinEnter *   silent call s:EntryHook()
+    autocmd BufWritePre *   silent call buildMate#Format()
     autocmd CursorHold  *   echo
     autocmd CursorHoldI *   stopinsert
     autocmd FileType    *   setlocal shiftwidth< softtabstop< tabstop<
@@ -286,7 +287,7 @@ augroup MyAutocmdGroup
     autocmd InsertEnter *   setlocal nolist | echo
     autocmd InsertLeave *   setlocal list
     autocmd VimEnter    *   let s:STARTUP_TIME = localtime()
-    autocmd VimLeave    *   silent call delete($HOME . "/.viminfo")
+    autocmd VimLeave    *   silent call delete($HOME .. "/.viminfo")
     autocmd VimResized  *   silent call s:EntryHook()
     autocmd WinEnter    *   silent call s:EntryHook()
     autocmd WinLeave    *   silent call s:EntryHook()

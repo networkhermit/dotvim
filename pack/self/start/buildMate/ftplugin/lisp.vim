@@ -14,7 +14,7 @@ if exists("b:build_filetype_lisp")
 endif
 
 let s:BUILD_OPT = " --noinform --non-interactive --no-sysinit "
-let b:BUILD_CMD = "sbcl ". s:BUILD_OPT . "--load % --eval \"(when (fboundp 'main) (main))\""
+let b:BUILD_CMD = "sbcl " .. s:BUILD_OPT .. "--load %:S --eval \"(when (fboundp 'main) (main))\""
 unlet s:BUILD_OPT
 
 let b:build_filetype_lisp = v:true

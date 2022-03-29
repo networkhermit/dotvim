@@ -13,6 +13,6 @@ if exists("b:build_filetype_javascript")
     finish
 endif
 
-let b:BUILD_CMD = "node --throw-deprecation --trace-warnings %"
+let b:BUILD_CMD = "node --throw-deprecation --trace-warnings %:S"
 
 let b:build_filetype_javascript = v:true

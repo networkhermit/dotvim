@@ -13,9 +13,12 @@ if exists("b:build_filetype_go")
     finish
 endif
 
-let b:BUILD_CMD = "go run %"
+let b:FORMATTER = []
+eval b:FORMATTER->add("gofmt")
 
-let b:POST_ACTION = []
-call add(b:POST_ACTION, "!go clean -cache")
+let b:BUILD_CMD = "go run %:S"
+
+let b:POST_BUILD_ACTION = []
+eval b:POST_BUILD_ACTION->add('call system("go clean -cache")')
 
 let b:build_filetype_go = v:true

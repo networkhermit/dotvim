@@ -13,6 +13,6 @@ if exists("b:build_filetype_php")
     finish
 endif
 
-let b:BUILD_CMD = "php -e %"
+let b:BUILD_CMD = "php -e %:S"
 
 let b:build_filetype_php = v:true

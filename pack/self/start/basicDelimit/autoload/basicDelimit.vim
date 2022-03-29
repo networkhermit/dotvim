@@ -28,9 +28,9 @@ function! basicDelimit#TypingOpeningParen(keystroke) " {{{
 endfunction " }}}
 
 function! basicDelimit#TypingClosingParen(keystroke) " {{{
-    let next_char = strpart(getline('.'), col('.') - 1, 1)
+    let l:next_char = strpart(getline('.'), col('.') - 1, 1)
 
-    if next_char == a:keystroke
+    if l:next_char == a:keystroke
         return "\<C-G>U\<Right>"
     endif
 
@@ -38,20 +38,20 @@ function! basicDelimit#TypingClosingParen(keystroke) " {{{
 endfunction " }}}
 
 function! basicDelimit#TypingQuote(keystroke) " {{{
-    let next_char = strpart(getline('.'), col('.') - 1, 1)
+    let l:next_char = strpart(getline('.'), col('.') - 1, 1)
 
-    if next_char == a:keystroke
+    if l:next_char == a:keystroke
         return "\<C-G>U\<Right>"
     endif
 
-    return a:keystroke . a:keystroke . "\<C-G>U\<Left>"
+    return a:keystroke .. a:keystroke .. "\<C-G>U\<Left>"
 endfunction " }}}
 
 function! basicDelimit#TypingBackSpace() " {{{
-    let surroundings = strpart(getline('.'), col('.') - 2, 2)
+    let l:surroundings = strpart(getline('.'), col('.') - 2, 2)
 
     for delimiter in s:Delimiters
-        if surroundings == delimiter
+        if l:surroundings == delimiter
             return "\<Delete>\<BS>"
         endif
     endfor
@@ -60,10 +60,10 @@ function! basicDelimit#TypingBackSpace() " {{{
 endfunction " }}}
 
 function! basicDelimit#TypingCarriageReturn() " {{{
-    let surroundings = strpart(getline('.'), col('.') - 2, 2)
+    let l:surroundings = strpart(getline('.'), col('.') - 2, 2)
 
     for delimiter in s:Parens
-        if surroundings == delimiter
+        if l:surroundings == delimiter
             return "\<CR>\<Esc>O"
         endif
     endfor

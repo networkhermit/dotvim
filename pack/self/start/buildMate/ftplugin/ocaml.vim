@@ -13,12 +13,12 @@ if exists("b:build_filetype_ocaml")
     finish
 endif
 
-let b:BUILD_CMD = "ocamlopt -g -o %< % && ./%<"
+let b:BUILD_CMD = "ocamlopt -g -o %:r:S %:S && ./%:r:S"
 
-let b:POST_ACTION = []
-call add(b:POST_ACTION, "call delete(expand(\"%<\"))")
-call add(b:POST_ACTION, "call delete(expand(\"%<\") . \".cmi\")")
-call add(b:POST_ACTION, "call delete(expand(\"%<\") . \".cmx\")")
-call add(b:POST_ACTION, "call delete(expand(\"%<\") . \".o\")")
+let b:POST_BUILD_ACTION = []
+eval b:POST_BUILD_ACTION->add('call delete(expand("#:r"))')
+eval b:POST_BUILD_ACTION->add('call delete(expand("#:r") .. ".cmi")')
+eval b:POST_BUILD_ACTION->add('call delete(expand("#:r") .. ".cmx")')
+eval b:POST_BUILD_ACTION->add('call delete(expand("#:r") .. ".o")')
 
 let b:build_filetype_ocaml = v:true
