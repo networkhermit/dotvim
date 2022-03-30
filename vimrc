@@ -53,10 +53,12 @@ endif
 
 set autochdir
 set autoindent
+set autoread
 set breakindent
 set expandtab
 set hidden
 set hlsearch
+set incsearch
 set lazyredraw
 set linebreak
 set list
@@ -67,6 +69,7 @@ set showcmd
 set showmatch
 set splitbelow
 set splitright
+set startofline
 set ttyfast
 set wildmenu
 
@@ -75,12 +78,11 @@ set wildmenu
 
 set nobackup
 set nofileignorecase
-set noincsearch
 set nojoinspaces
 set nomodeline
+set noshowmode
 set nospell
 set noundofile
-set nowrap
 
 " }}}
 " SECTION:  NUMBER {{{
@@ -88,23 +90,24 @@ set nowrap
 set cmdwinheight=1
 set foldnestmax=2
 set helpheight=0
+set history=256
+set laststatus=2
 set linespace=0
 set matchtime=1
 set previewheight=1
 set pumheight=15
 set report=0
-set scrolloff=4
 set shiftwidth=4
 set sidescroll=1
 set softtabstop=4
+set tabpagemax=50
 set tabstop=8
 set textwidth=80
 set timeoutlen=0
+set ttimeoutlen=50
 set updatetime=15000
-set winheight=1
 set winminheight=0
 set winminwidth=0
-set winwidth=1
 
 " }}}
 " SECTION:  STRING {{{
@@ -119,21 +122,24 @@ set display=lastline
 set encoding=utf-8
 set fileencodings=ucs-bom,utf-8,prc,taiwan,latin1
 set fileformats=unix,dos,mac
+set fillchars=vert:│,fold:·,foldsep:│,eob:~
 set foldmethod=syntax
 set foldopen-=hor
-set formatoptions=croqlmB1j
+set formatoptions=croqlmBj
 set guioptions=c
 set listchars=tab:⇥\ ,trail:␣,extends:›,precedes:‹,nbsp:⍽
 set mouse=a
-set rulerformat=%16(%6l,\ %-4c\ %P%)
-set shortmess+=mrWc
+set nrformats=bin,hex
+set shortmess+=mrWcF
 set showbreak=↪\ 
 set spelllang=en_us,en_gb
 set spellsuggest+=4
 set statusline=%F\ \ %q%w%r%m%=%6l,\ %-4c\ %P
+set switchbuf=uselast
 set viminfo+=n~/.viminfo
 set virtualedit=all
 set wildmode^=longest:full
+silent! set wildoptions=pum,tagfile
 
 " }}}
 " }}}
@@ -170,6 +176,8 @@ endif
 " }}}
 " SECTION:  PLUGIN {{{
 
+runtime ftplugin/man.vim
+
 let g:PHP_default_indenting = 1
 let g:html_indent_script1   = "inc"
 let g:html_indent_style1    = "inc"
@@ -180,8 +188,8 @@ let g:netrw_dirhistmax      = 0
 " SECTION:  EntryHook {{{
 
 function! s:EntryHook()
-    if winwidth(0) > 80
-        let &l:colorcolumn = 80
+    if winwidth(0) > &l:textwidth
+        let &l:colorcolumn = &l:textwidth
         let &l:cursorline  = 1
         let &l:number      = 1
     else
@@ -194,82 +202,78 @@ endfunction
 " }}}
 " }}}
 " SECTION:  MAPPING {{{
-" SECTION:  NORMAL {{{
+" SECTION:  COMMAND {{{
 
-nnoremap <silent> '       `
-nnoremap <silent> `       '
-
-nnoremap <silent> *       *N
-nnoremap <silent> #       #N
-
-nnoremap <silent> &       :wall<CR>
-nnoremap <silent> _       :setlocal spell!<CR>
-
-nnoremap <silent> H       8zh
-nnoremap <silent> M       mmzngg=G`mzz
-nnoremap <silent> L       8zl
-
-nnoremap <silent> K       :call buildMate#Run()<CR>
-nnoremap <silent> Q       :bwipeout<CR>
-
-nnoremap <silent> -       :setlocal cursorline! number!<CR>
-nnoremap <silent> <CR>    o<Esc>0d$
-nnoremap <silent> <Space> i<Space><Esc>l
-
-nnoremap <silent> <F2>    :split $MYVIMRC<CR>
-nnoremap <silent> <F7>    :call buildMate#Run()<CR>
-
-nnoremap <silent> <C-^>   O<Esc>0d$
-nnoremap <silent> <C-J>   <C-W>j
-nnoremap <silent> <C-K>   <C-W>k
-nnoremap <silent> <C-L>   :nohlsearch<CR>:diffupdate<CR>:syntax sync fromstart<CR><C-L>
-nnoremap <silent> <C-N>   :bnext<CR>
-nnoremap <silent> <C-P>   :bprevious<CR>
-
-nnoremap <silent> <Up>    <C-U>
-nnoremap <silent> <Down>  <C-D>
-nnoremap <silent> <Left>  zH
-nnoremap <silent> <Right> zL
-
-" }}}
-" SECTION:  VISUAL {{{
-
-vnoremap <silent> '       `
-vnoremap <silent> `       '
-
-vnoremap <silent> *       y/\V<C-R>=escape(getreg('"'), '\/')<CR><CR>N
-vnoremap <silent> #       y?\V<C-R>=escape(getreg('"'), '\?')<CR><CR>N
-
-vnoremap <silent> H       <Nop>
-vnoremap <silent> M       :sort<CR>
-vnoremap <silent> L       <Nop>
-
-vnoremap <silent> K       <Nop>
-vnoremap <silent> Q       <Nop>
-
-vnoremap <silent> -       <Nop>
-vnoremap <silent> <CR>    <Nop>
-vnoremap <silent> <Space> <Nop>
-
-vnoremap <silent> <C-^>   <Nop>
-vnoremap <silent> <C-H>   <Nop>
-vnoremap <silent> <C-J>   <Nop>
-vnoremap <silent> <C-K>   <Nop>
-vnoremap <silent> <C-L>   <Nop>
-vnoremap <silent> <C-N>   <Nop>
-vnoremap <silent> <C-P>   <Nop>
-vnoremap <silent> <C-G>   <Nop>
-
-vnoremap <silent> <Up>    8k
-vnoremap <silent> <Down>  8j
-vnoremap <silent> <Left>  8h
-vnoremap <silent> <Right> 8l
+cnoremap <C-A>   <Home>
 
 " }}}
 " SECTION:  INSERT {{{
 
-inoremap <silent> <C-E>   <C-X><C-E>
-inoremap <silent> <C-Y>   <C-X><C-Y>
+inoremap <C-L>   <Cmd>redraw<CR>
+
+" }}}
+" SECTION:  NORMAL {{{
+
+nnoremap Y       y$
+
+nnoremap '       `
+nnoremap `       '
+
+nnoremap *       *N
+nnoremap #       #N
+
+nnoremap K       <Cmd>call buildMate#Run()<CR>
+nnoremap Q       ZQ
+
+nnoremap <F2>    <Cmd>split $MYVIMRC<CR>
+nnoremap <F7>    <Cmd>call buildMate#Run()<CR>
+nnoremap <F12>   <Cmd>setlocal spell!<CR>
+
+nnoremap <C-H>   <Nop>
+nnoremap <C-J>   <C-W>j
+nnoremap <C-K>   <C-W>k
+nnoremap <C-L>   <Cmd>nohlsearch<Bar>diffupdate<Bar>syntax sync fromstart<CR><C-L>
+nnoremap <C-N>   <Cmd>bnext<CR>
+nnoremap <C-P>   <Cmd>bprevious<CR>
+
+nnoremap <Up>    <Nop>
+nnoremap <Down>  <Nop>
+nnoremap <Left>  <Nop>
+nnoremap <Right> <Nop>
+
+" }}}
+" SECTION:  TERMINAL {{{
+
+tnoremap <C-J>   <C-W>j
+tnoremap <C-K>   <C-W>k
+
+" }}}
+" SECTION:  VISUAL {{{
+
+vnoremap '       `
+vnoremap `       '
+
+vnoremap *       y/\V<C-R>=escape(getreg('"'), '\/')<CR><CR>N
+vnoremap #       y?\V<C-R>=escape(getreg('"'), '\?')<CR><CR>N
+
+vnoremap K       <Nop>
+vnoremap Q       <Nop>
+
+vnoremap H       <Nop>
+vnoremap M       <Cmd>sort l<CR>
+vnoremap L       <Nop>
+
+vnoremap <C-H>   <Nop>
+vnoremap <C-J>   <Nop>
+vnoremap <C-K>   <Nop>
+vnoremap <C-L>   <Nop>
+vnoremap <C-N>   <Nop>
+vnoremap <C-P>   <Nop>
+
+vnoremap <Up>    <Nop>
+vnoremap <Down>  <Nop>
+vnoremap <Left>  <Nop>
+vnoremap <Right> <Nop>
 
 " }}}
 " }}}
@@ -277,8 +281,8 @@ inoremap <silent> <C-Y>   <C-X><C-Y>
 
 augroup MyAutocmdGroup
     autocmd!
-    autocmd BufWinEnter *   silent call s:EntryHook()
-    autocmd BufWritePre *   silent call buildMate#Format()
+    autocmd BufWinEnter *   call s:EntryHook()
+    autocmd BufWritePre *   call buildMate#Format()
     autocmd CursorHold  *   echo
     autocmd CursorHoldI *   stopinsert
     autocmd FileType    *   setlocal shiftwidth< softtabstop< tabstop<
@@ -286,11 +290,10 @@ augroup MyAutocmdGroup
     autocmd GUIEnter    *   set columns=1024 lines=1024
     autocmd InsertEnter *   setlocal nolist | echo
     autocmd InsertLeave *   setlocal list
-    autocmd VimEnter    *   let s:STARTUP_TIME = localtime()
-    autocmd VimLeave    *   silent call delete($HOME .. "/.viminfo")
-    autocmd VimResized  *   silent call s:EntryHook()
-    autocmd WinEnter    *   silent call s:EntryHook()
-    autocmd WinLeave    *   silent call s:EntryHook()
+    autocmd VimLeave    *   call delete($HOME .. "/.viminfo")
+    autocmd VimResized  *   call s:EntryHook()
+    autocmd WinEnter    *   call s:EntryHook()
+    autocmd WinLeave    *   call s:EntryHook()
     autocmd WinLeave    *   setlocal colorcolumn=0
 augroup END
 
