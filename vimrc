@@ -229,7 +229,7 @@ nnoremap <F2>    <Cmd>split $MYVIMRC<CR>
 nnoremap <F7>    <Cmd>call buildMate#Run()<CR>
 nnoremap <F12>   <Cmd>setlocal spell!<CR>
 
-nnoremap <C-H>   <Nop>
+nnoremap <C-H>   <Cmd>NERDTreeToggle<CR>
 nnoremap <C-J>   <C-W>j
 nnoremap <C-K>   <C-W>k
 nnoremap <C-L>   <Cmd>nohlsearch<Bar>diffupdate<Bar>syntax sync fromstart<CR><C-L>
