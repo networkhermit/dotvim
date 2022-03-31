@@ -184,6 +184,11 @@ let g:html_indent_style1    = "inc"
 let g:netrw_dirhistmax      = 0
 
 " }}}
+" SECTION:  COMMAND {{{
+
+command! W silent execute "write !sudo tee %:S > /dev/null" | edit!
+
+" }}}
 " SECTION:  FUNCTION {{{
 " SECTION:  EntryHook {{{
 
@@ -261,7 +266,7 @@ vnoremap K       <Nop>
 vnoremap Q       <Nop>
 
 vnoremap H       <Nop>
-vnoremap M       <Cmd>sort l<CR>
+vnoremap M       <Esc><Cmd>'<,'>sort l<CR>
 vnoremap L       <Nop>
 
 vnoremap <C-H>   <Nop>

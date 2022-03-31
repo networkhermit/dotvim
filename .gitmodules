@@ -4,12 +4,21 @@
 [submodule "pack/dist/start/dracula"]
 	path = pack/dist/start/dracula
 	url = https://github.com/dracula/vim.git
+[submodule "pack/dist/start/gruvbox"]
+	path = pack/dist/start/gruvbox
+	url = https://github.com/morhetz/gruvbox.git
 [submodule "pack/dist/start/nord"]
 	path = pack/dist/start/nord
 	url = https://github.com/arcticicestudio/nord-vim.git
+[submodule "pack/dist/start/onedark"]
+	path = pack/dist/start/onedark
+	url = https://github.com/joshdick/onedark.vim.git
 [submodule "pack/dist/start/vim-airline"]
 	path = pack/dist/start/vim-airline
 	url = https://github.com/vim-airline/vim-airline.git
+[submodule "pack/dist/start/vim-fugitive"]
+	path = pack/dist/start/vim-fugitive
+	url = https://github.com/tpope/vim-fugitive.git
 [submodule "pack/dist/start/vim-gitgutter"]
 	path = pack/dist/start/vim-gitgutter
 	url = https://github.com/airblade/vim-gitgutter.git
