@@ -121,7 +121,7 @@ set diffopt+=vertical,foldcolumn:0
 set display=lastline
 set encoding=utf-8
 set fileencodings=ucs-bom,utf-8,prc,taiwan,latin1
-set fileformats=unix,dos,mac
+set fileformats=unix,dos
 set fillchars=vert:│,fold:·,foldsep:│,eob:~
 set foldmethod=syntax
 set foldopen-=hor
@@ -133,7 +133,7 @@ set nrformats=bin,hex
 set shortmess+=mrWcF
 set showbreak=↪\ 
 set spelllang=en_us,en_gb
-set spellsuggest+=4
+set spellsuggest+=6
 set statusline=%F\ \ %q%w%r%m%=%6l,\ %-4c\ %P
 set switchbuf=uselast
 set viminfo+=n~/.viminfo
@@ -164,7 +164,7 @@ else
     set background=dark
     colorscheme nord
 
-    let s:FONT_SIZE = has_key(environ(), "FONT_SIZE") ? $FONT_SIZE : 18
+    let s:FONT_SIZE = empty($FONT_SIZE) ? 18 : $FONT_SIZE
 
     if s:LINUX
         let &guifont = "Fira Code " .. s:FONT_SIZE
@@ -187,7 +187,7 @@ let g:netrw_dirhistmax      = 0
 " SECTION:  FUNCTION {{{
 " SECTION:  EntryHook {{{
 
-function! s:EntryHook()
+function! s:EntryHook() abort
     if winwidth(0) > &l:textwidth
         let &l:colorcolumn = &l:textwidth
         let &l:cursorline  = 1
@@ -215,6 +215,7 @@ inoremap <C-L>   <Cmd>redraw<CR>
 " SECTION:  NORMAL {{{
 
 nnoremap Y       y$
+nnoremap _      <Cmd>setlocal relativenumber!<CR>
 
 nnoremap '       `
 nnoremap `       '
@@ -229,7 +230,7 @@ nnoremap <F2>    <Cmd>split $MYVIMRC<CR>
 nnoremap <F7>    <Cmd>call buildMate#Run()<CR>
 nnoremap <F12>   <Cmd>setlocal spell!<CR>
 
-nnoremap <C-H>   <Cmd>NERDTreeToggle<CR>
+nmap     <C-H>   <Plug>VinegarUp
 nnoremap <C-J>   <C-W>j
 nnoremap <C-K>   <C-W>k
 nnoremap <C-L>   <Cmd>nohlsearch<Bar>diffupdate<Bar>syntax sync fromstart<CR><C-L>

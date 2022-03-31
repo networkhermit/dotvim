@@ -9,7 +9,7 @@
 
 scriptencoding utf-8
 
-function! buildMate#Format() " {{{
+function! buildMate#Format() abort " {{{
     if !exists("b:FORMATTER")
         return
     endif
@@ -28,7 +28,7 @@ function! buildMate#Format() " {{{
     endfor
 endfunction " }}}
 
-function! buildMate#Run() " {{{
+function! buildMate#Run() abort " {{{
     update
 
     if !has("terminal")
@@ -40,7 +40,7 @@ function! buildMate#Run() " {{{
     endif
 
     let s:POST_BUILD_ACTION = []
-    function! s:cleanUp(channel)
+    function! s:cleanUp(channel) abort
         for action in s:POST_BUILD_ACTION
             execute action
         endfor

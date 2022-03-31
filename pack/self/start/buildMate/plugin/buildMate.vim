@@ -9,7 +9,7 @@
 
 scriptencoding utf-8
 
-if exists("g:buildMate_loaded") || &compatible
+if exists("g:loaded_buildMate") || &compatible
     finish
 endif
-let g:buildMate_loaded = v:true
+let g:loaded_buildMate = v:true

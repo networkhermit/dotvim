@@ -17,7 +17,7 @@ let s:Delimiters = s:Parens + s:Quotes
 
 " }}}
 
-function! basicDelimit#TypingOpeningParen(keystroke) " {{{
+function! basicDelimit#TypingOpeningParen(keystroke) abort " {{{
     if     a:keystroke == '{'
         return "{}\<C-G>U\<Left>"
     elseif a:keystroke == '['
@@ -27,7 +27,7 @@ function! basicDelimit#TypingOpeningParen(keystroke) " {{{
     endif
 endfunction " }}}
 
-function! basicDelimit#TypingClosingParen(keystroke) " {{{
+function! basicDelimit#TypingClosingParen(keystroke) abort " {{{
     let l:next_char = strpart(getline('.'), col('.') - 1, 1)
 
     if l:next_char == a:keystroke
@@ -37,7 +37,7 @@ function! basicDelimit#TypingClosingParen(keystroke) " {{{
     return a:keystroke
 endfunction " }}}
 
-function! basicDelimit#TypingQuote(keystroke) " {{{
+function! basicDelimit#TypingQuote(keystroke) abort " {{{
     let l:next_char = strpart(getline('.'), col('.') - 1, 1)
 
     if l:next_char == a:keystroke
@@ -47,7 +47,7 @@ function! basicDelimit#TypingQuote(keystroke) " {{{
     return a:keystroke .. a:keystroke .. "\<C-G>U\<Left>"
 endfunction " }}}
 
-function! basicDelimit#TypingBackSpace() " {{{
+function! basicDelimit#TypingBackSpace() abort " {{{
     let l:surroundings = strpart(getline('.'), col('.') - 2, 2)
 
     for delimiter in s:Delimiters
@@ -59,7 +59,7 @@ function! basicDelimit#TypingBackSpace() " {{{
     return "\<BS>"
 endfunction " }}}
 
-function! basicDelimit#TypingCarriageReturn() " {{{
+function! basicDelimit#TypingCarriageReturn() abort " {{{
     let l:surroundings = strpart(getline('.'), col('.') - 2, 2)
 
     for delimiter in s:Parens

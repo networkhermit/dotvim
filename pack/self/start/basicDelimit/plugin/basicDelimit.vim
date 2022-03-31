@@ -9,12 +9,12 @@
 
 scriptencoding utf-8
 
-if exists("g:basicDelimit_loaded") || &compatible
+if exists("g:loaded_basicDelimit") || &compatible
     finish
 endif
-let g:basicDelimit_loaded = v:true
+let g:loaded_basicDelimit = v:true
 
-function! s:LoadMapping() " {{{
+function! s:LoadMapping() abort " {{{
     imap   <buffer> {    <Plug>basicDelimit{
     imap   <buffer> }    <Plug>basicDelimit}
     imap   <buffer> [    <Plug>basicDelimit[
@@ -28,7 +28,7 @@ function! s:LoadMapping() " {{{
     imap   <buffer> <CR> <Plug>basicDelimit<CR>
 endfunction " }}}
 
-function! s:DropMapping() " {{{
+function! s:DropMapping() abort " {{{
     iunmap <buffer> {
     iunmap <buffer> }
     iunmap <buffer> [
@@ -42,7 +42,7 @@ function! s:DropMapping() " {{{
     iunmap <buffer> <CR>
 endfunction " }}}
 
-function! basicDelimit#Init() " {{{
+function! basicDelimit#Init() abort " {{{
     if exists("b:basicDelimit_enabled")
         return
     endif
@@ -64,7 +64,7 @@ function! basicDelimit#Init() " {{{
     let b:basicDelimit_enabled = v:true
 endfunction " }}}
 
-function! basicDelimit#Toggle() " {{{
+function! basicDelimit#Toggle() abort " {{{
     if b:basicDelimit_enabled
         call s:DropMapping()
         let b:basicDelimit_enabled = v:false
