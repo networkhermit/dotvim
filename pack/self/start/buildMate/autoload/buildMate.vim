@@ -16,7 +16,11 @@ function! buildMate#Format() abort " {{{
     for action in b:FORMATTER
         let l:stdout = systemlist(action, bufnr())
         if v:shell_error != 0
-            echoerr &filetype .. " formatter `" .. action .. "` failed with exit code " .. v:shell_error .. ": " .. l:stdout->string()
+            if v:shell_error == 127
+                echomsg &filetype .. " formatter `" .. action .. "` not found"
+            else
+                echoerr &filetype .. " formatter `" .. action .. "` failed with exit code " .. v:shell_error .. ": " .. l:stdout->string()
+            endif
             continue
         endif
         let l:before = line('$')

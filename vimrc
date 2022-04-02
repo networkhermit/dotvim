@@ -1,4 +1,4 @@
-"Kali Rolling--------------------------------------------------------------
+"Kali Linux----------------------------------------------------------------
 "-------------------------------Vi IMproved--------------------------------
 "--------------------This is my Vim configuration file.--------------------
 
@@ -30,20 +30,20 @@ filetype plugin indent on
 " }}}
 " SECTION:  SYMBOL {{{
 
-let s:GVIM     = v:false
 let s:LINUX    = v:false
-let s:TERMINAL = v:false
+let s:MACOS    = v:false
+let s:TERMINAL = v:true
 let s:WINDOWS  = v:false
 
-if has("gui_running") || (exists("+termguicolors") && &termguicolors)
-    let s:GVIM     = v:true
-else
-    let s:TERMINAL = v:true
+if has("gui_running")
+    let s:TERMINAL = v:false
 endif
 
-if has("unix") || has("mac")
+if has("linux")
     let s:LINUX    = v:true
-elseif has("win64") || has("win32")
+elseif has("mac")
+    let s:MACOS    = v:true
+elseif has("win64")
     let s:WINDOWS  = v:true
 endif
 
@@ -70,6 +70,7 @@ set showmatch
 set splitbelow
 set splitright
 set startofline
+set ttimeout
 set ttyfast
 set wildmenu
 
@@ -103,7 +104,6 @@ set softtabstop=4
 set tabpagemax=50
 set tabstop=8
 set textwidth=80
-set timeoutlen=0
 set ttimeoutlen=50
 set updatetime=15000
 set winminheight=0
@@ -134,7 +134,6 @@ set shortmess+=mrWcF
 set showbreak=↪\ 
 set spelllang=en_us,en_gb
 set spellsuggest+=6
-set statusline=%F\ \ %q%w%r%m%=%6l,\ %-4c\ %P
 set switchbuf=uselast
 set viminfo+=n~/.viminfo
 set virtualedit=all
@@ -146,19 +145,32 @@ silent! set wildoptions=pum,tagfile
 " SECTION:  SCHEME {{{
 
 if s:TERMINAL
+    if !has("nvim")
+        set ttymouse=sgr
+        if &term == "tmux-256color"
+            let &t_BE = "\<Esc>[?2004h"
+            let &t_BD = "\<Esc>[?2004l"
+            let &t_PS = "\<Esc>[200~"
+            let &t_PE = "\<Esc>[201~"
+
+            let &t_fe = "\<Esc>[?1004h"
+            let &t_fd = "\<Esc>[?1004l"
+
+            let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+            let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+        endif
+    endif
+
     set background=light
     colorscheme default
 
     if &t_Co >= 256
-        highlight ColorColumn  NONE ctermbg=42
-        highlight CursorLine   NONE
-        highlight CursorLineNr NONE            ctermfg=11  cterm=bold
-        highlight LineNr       NONE            ctermfg=240
-    else
-        highlight ColorColumn  NONE ctermbg=2
-        highlight CursorLine   NONE
-        highlight CursorLineNr NONE            ctermfg=14  cterm=bold
-        highlight LineNr       NONE            ctermfg=8
+        highlight ColorColumn  NONE ctermbg=236
+        highlight CursorLine   NONE ctermbg=237
+        highlight CursorLineNr NONE ctermfg=11  cterm=bold
+        highlight Folded       NONE ctermfg=245 cterm=bold
+        highlight LineNr       NONE ctermfg=242
+        highlight SignColumn   NONE
     endif
 else
     set background=dark
@@ -168,7 +180,7 @@ else
 
     if s:LINUX
         let &guifont = "Fira Code " .. s:FONT_SIZE
-    elseif s:WINDOWS
+    elseif s:MACOS || s:WINDOWS
         let &guifont = "Fira Code:h" .. s:FONT_SIZE
     endif
 endif
@@ -220,7 +232,7 @@ inoremap <C-L>   <Cmd>redraw<CR>
 " SECTION:  NORMAL {{{
 
 nnoremap Y       y$
-nnoremap _      <Cmd>setlocal relativenumber!<CR>
+nnoremap _      <Cmd>set relativenumber! termguicolors!<CR>
 
 nnoremap '       `
 nnoremap `       '
@@ -329,4 +341,4 @@ augroup END
 
 "------------------------------ hi, I'm vac--------------------------------
 "------------Tempt not a desperate man. -- William Shakespeare-------------
-"-----------------------------------------------------------------GNU/Linux
+"----------------------------------------------------------------Arch Linux
