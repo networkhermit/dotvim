@@ -11,14 +11,14 @@ scriptencoding utf-8
 
 " Initialize Defaults {{{
 
-let s:Parens     = ["{}", "[]", "()"]
-let s:Quotes     = ['""', "''", "``"]
+let s:Parens = ["{}", "[]", "()"]
+let s:Quotes = ['""', "''", "``"]
 let s:Delimiters = s:Parens + s:Quotes
 
 " }}}
 
 function! basicDelimit#TypingOpeningParen(keystroke) abort " {{{
-    if     a:keystroke == '{'
+    if a:keystroke == '{'
         return "{}\<C-G>U\<Left>"
     elseif a:keystroke == '['
         return "[]\<C-G>U\<Left>"

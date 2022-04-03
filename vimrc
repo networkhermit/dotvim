@@ -30,21 +30,21 @@ filetype plugin indent on
 " }}}
 " SECTION:  SYMBOL {{{
 
-let s:LINUX    = v:false
-let s:MACOS    = v:false
+let s:LINUX = v:false
+let s:MACOS = v:false
 let s:TERMINAL = v:true
-let s:WINDOWS  = v:false
+let s:WINDOWS = v:false
 
 if has("gui_running")
     let s:TERMINAL = v:false
 endif
 
 if has("linux")
-    let s:LINUX    = v:true
+    let s:LINUX = v:true
 elseif has("mac")
-    let s:MACOS    = v:true
+    let s:MACOS = v:true
 elseif has("win64")
-    let s:WINDOWS  = v:true
+    let s:WINDOWS = v:true
 endif
 
 " }}}
@@ -113,9 +113,9 @@ set winminwidth=0
 " SECTION:  STRING {{{
 
 set backspace=indent,eol,start
-set breakindentopt+=sbr
+set breakindentopt=sbr
 set browsedir=buffer
-set cinoptions+=g0
+set cinoptions=g0
 set completeopt+=longest
 set diffopt+=vertical,foldcolumn:0
 set display=lastline
@@ -130,15 +130,14 @@ set guioptions=c
 set listchars=tab:⇥\ ,trail:␣,extends:›,precedes:‹,nbsp:⍽
 set mouse=a
 set nrformats=bin,hex
-set shortmess+=mrWcF
+set shortmess=atToOFc
 set showbreak=↪\ 
 set spelllang=en_us,en_gb
 set spellsuggest+=6
 set switchbuf=uselast
 set viminfo+=n~/.viminfo
 set virtualedit=all
-set wildmode^=longest:full
-silent! set wildoptions=pum,tagfile
+set wildmode=longest:full,full
 
 " }}}
 " }}}
@@ -173,6 +172,12 @@ if s:TERMINAL
         highlight SignColumn   NONE
     endif
 else
+    if !has("nvim")
+        if s:WINDOWS
+            set renderoptions=type:directx
+        endif
+    endif
+
     set background=dark
     colorscheme nord
 
@@ -191,9 +196,9 @@ endif
 runtime ftplugin/man.vim
 
 let g:PHP_default_indenting = 1
-let g:html_indent_script1   = "inc"
-let g:html_indent_style1    = "inc"
-let g:netrw_dirhistmax      = 0
+let g:html_indent_script1 = "inc"
+let g:html_indent_style1 = "inc"
+let g:netrw_dirhistmax = 0
 
 " }}}
 " SECTION:  COMMAND {{{
@@ -207,12 +212,12 @@ command! W silent execute "write !sudo tee %:S > /dev/null" | edit!
 function! s:EntryHook() abort
     if winwidth(0) > &l:textwidth
         let &l:colorcolumn = &l:textwidth
-        let &l:cursorline  = 1
-        let &l:number      = 1
+        let &l:cursorline = 1
+        let &l:number = 1
     else
         let &l:colorcolumn = 0
-        let &l:cursorline  = 0
-        let &l:number      = 0
+        let &l:cursorline = 0
+        let &l:number = 0
     endif
 endfunction
 
