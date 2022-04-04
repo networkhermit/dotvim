@@ -16,9 +16,9 @@ endif
 let b:FORMATTER = []
 eval b:FORMATTER->add("rustfmt")
 
-let b:BUILD_CMD = "rustc -C opt-level=0 -g %:S && ./%:r:S"
+let b:BUILD_CMD = "rustc -C opt-level=0 -g %:S && ./%:t:r:S"
 
 let b:POST_BUILD_ACTION = []
-eval b:POST_BUILD_ACTION->add('call delete(expand("#:r"))')
+eval b:POST_BUILD_ACTION->add('call delete(expand("#:t:r"))')
 
 let b:build_filetype_rust = v:true

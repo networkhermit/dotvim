@@ -13,11 +13,11 @@ if exists("b:build_filetype_cpp")
     finish
 endif
 
-let b:BUILD_OPT = " -O0 -g3 -Wall -Werror -std=c++20 -x c++ -o %:r:S "
-let b:BUILD_CMD = "g++" .. b:BUILD_OPT .. "%:S && clang++" .. b:BUILD_OPT .. "%:S && ./%:r:S"
+let b:BUILD_OPT = " -O0 -g3 -Wall -Werror -std=c++20 -x c++ -o %:t:r:S "
+let b:BUILD_CMD = "g++" .. b:BUILD_OPT .. "%:S && clang++" .. b:BUILD_OPT .. "%:S && ./%:t:r:S"
 unlet b:BUILD_OPT
 
 let b:POST_BUILD_ACTION = []
-eval b:POST_BUILD_ACTION->add('call delete(expand("#:r"))')
+eval b:POST_BUILD_ACTION->add('call delete(expand("#:t:r"))')
 
 let b:build_filetype_cpp = v:true

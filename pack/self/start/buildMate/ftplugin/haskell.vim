@@ -13,11 +13,11 @@ if exists("b:build_filetype_haskell")
     finish
 endif
 
-let b:BUILD_CMD = "ghc -O0 -Wall -o %:r:S %:S && ./%:r:S"
+let b:BUILD_CMD = "ghc -O0 -Wall -o %:t:r:S %:S && ./%:t:r:S"
 
 let b:POST_BUILD_ACTION = []
-eval b:POST_BUILD_ACTION->add('call delete(expand("#:r"))')
-eval b:POST_BUILD_ACTION->add('call delete(expand("#:r") .. ".hi")')
-eval b:POST_BUILD_ACTION->add('call delete(expand("#:r") .. ".o")')
+eval b:POST_BUILD_ACTION->add('call delete(expand("#:t:r"))')
+eval b:POST_BUILD_ACTION->add('call delete(expand("#:t:r") .. ".hi")')
+eval b:POST_BUILD_ACTION->add('call delete(expand("#:t:r") .. ".o")')
 
 let b:build_filetype_haskell = v:true

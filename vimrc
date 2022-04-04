@@ -201,27 +201,41 @@ let g:html_indent_style1 = "inc"
 let g:netrw_dirhistmax = 0
 
 " }}}
-" SECTION:  COMMAND {{{
-
-command! W silent execute "write !sudo tee %:S > /dev/null" | edit!
-
-" }}}
 " SECTION:  FUNCTION {{{
 " SECTION:  EntryHook {{{
 
 function! s:EntryHook() abort
+    for winid in gettabinfo(tabpagenr())[0]["windows"]
+        call win_execute(winid, "setlocal colorcolumn= nocursorline norelativenumber")
+        call win_execute(winid, "let &l:number = winwidth(0) > &l:textwidth")
+    endfor
     if winwidth(0) > &l:textwidth
-        let &l:colorcolumn = &l:textwidth
-        let &l:cursorline = 1
-        let &l:number = 1
-    else
-        let &l:colorcolumn = 0
-        let &l:cursorline = 0
-        let &l:number = 0
+        setlocal colorcolumn=+1 cursorline
     endif
+    let &l:relativenumber = &g:relativenumber && &l:number
 endfunction
 
 " }}}
+" SECTION:  ToggleRelativeNumber {{{
+
+if !exists("s:relativenumber")
+    let s:relativenumber = &relativenumber
+endif
+
+function! ToggleRelativeNumber() abort
+    for w in getwininfo()
+        call win_execute(w.winid, "let &g:relativenumber = " .. !s:relativenumber)
+    endfor
+    let &l:relativenumber = &g:relativenumber && &l:number
+    let s:relativenumber = !s:relativenumber
+endfunction
+
+" }}}
+" }}}
+" SECTION:  COMMAND {{{
+
+command! W silent execute "write !sudo tee %:S > /dev/null" | edit!
+
 " }}}
 " SECTION:  MAPPING {{{
 " SECTION:  COMMAND {{{
@@ -231,19 +245,16 @@ cnoremap <C-A>   <Home>
 " }}}
 " SECTION:  INSERT {{{
 
-inoremap <C-L>   <Cmd>redraw<CR>
+inoremap <C-L>   <Cmd>nohlsearch<Bar>diffupdate<Bar>redraw<CR>
 
 " }}}
 " SECTION:  NORMAL {{{
 
 nnoremap Y       y$
-nnoremap _      <Cmd>set relativenumber! termguicolors!<CR>
+nnoremap _       <Cmd>set termguicolors!<Bar>call ToggleRelativeNumber()<CR>
 
 nnoremap '       `
 nnoremap `       '
-
-nnoremap *       *N
-nnoremap #       #N
 
 nnoremap K       <Cmd>call buildMate#Run()<CR>
 nnoremap Q       ZQ
@@ -255,7 +266,7 @@ nnoremap <F12>   <Cmd>setlocal spell!<CR>
 nmap     <C-H>   <Plug>VinegarUp
 nnoremap <C-J>   <C-W>j
 nnoremap <C-K>   <C-W>k
-nnoremap <C-L>   <Cmd>nohlsearch<Bar>diffupdate<Bar>syntax sync fromstart<CR><C-L>
+nnoremap <C-L>   <Cmd>nohlsearch<Bar>diffupdate<CR><C-L>
 nnoremap <C-N>   <Cmd>bnext<CR>
 nnoremap <C-P>   <Cmd>bprevious<CR>
 
@@ -273,30 +284,30 @@ tnoremap <C-K>   <C-W>k
 " }}}
 " SECTION:  VISUAL {{{
 
-vnoremap '       `
-vnoremap `       '
+xnoremap *       y/\V<C-R>=substitute(escape(@", '\/'), '\n', '\\n', 'g')<CR><CR>
+xnoremap #       y?\V<C-R>=substitute(escape(@", '\?'), '\n', '\\n', 'g')<CR><CR>
 
-vnoremap *       y/\V<C-R>=escape(getreg('"'), '\/')<CR><CR>N
-vnoremap #       y?\V<C-R>=escape(getreg('"'), '\?')<CR><CR>N
+xnoremap '       `
+xnoremap `       '
 
-vnoremap K       <Nop>
-vnoremap Q       <Nop>
+xnoremap K       <Nop>
+xnoremap Q       <Nop>
 
-vnoremap H       <Nop>
-vnoremap M       <Esc><Cmd>'<,'>sort l<CR>
-vnoremap L       <Nop>
+xnoremap H       <Nop>
+xnoremap M       <Esc><Cmd>'<,'>sort l<CR>
+xnoremap L       <Nop>
 
-vnoremap <C-H>   <Nop>
-vnoremap <C-J>   <Nop>
-vnoremap <C-K>   <Nop>
-vnoremap <C-L>   <Nop>
-vnoremap <C-N>   <Nop>
-vnoremap <C-P>   <Nop>
+xnoremap <C-H>   <Nop>
+xnoremap <C-J>   <Nop>
+xnoremap <C-K>   <Nop>
+xnoremap <C-L>   <Nop>
+xnoremap <C-N>   <Nop>
+xnoremap <C-P>   <Nop>
 
-vnoremap <Up>    <Nop>
-vnoremap <Down>  <Nop>
-vnoremap <Left>  <Nop>
-vnoremap <Right> <Nop>
+xnoremap <Up>    <Nop>
+xnoremap <Down>  <Nop>
+xnoremap <Left>  <Nop>
+xnoremap <Right> <Nop>
 
 " }}}
 " }}}
@@ -304,20 +315,20 @@ vnoremap <Right> <Nop>
 
 augroup MyAutocmdGroup
     autocmd!
+    autocmd BufRead     *   GitGutter
     autocmd BufWinEnter *   call s:EntryHook()
+    autocmd BufWrite    *   GitGutter
     autocmd BufWritePre *   call buildMate#Format()
     autocmd CursorHold  *   echo
     autocmd CursorHoldI *   stopinsert
     autocmd FileType    *   setlocal shiftwidth< softtabstop< tabstop<
     autocmd FileType    vim setlocal foldmethod=marker
-    autocmd GUIEnter    *   set columns=1024 lines=1024
+    autocmd GUIEnter    *   set columns=9999 lines=999
     autocmd InsertEnter *   setlocal nolist | echo
     autocmd InsertLeave *   setlocal list
     autocmd VimLeave    *   call delete($HOME .. "/.viminfo")
     autocmd VimResized  *   call s:EntryHook()
     autocmd WinEnter    *   call s:EntryHook()
-    autocmd WinLeave    *   call s:EntryHook()
-    autocmd WinLeave    *   setlocal colorcolumn=0
 augroup END
 
 " }}}
