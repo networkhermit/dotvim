@@ -181,7 +181,7 @@ else
     set background=dark
     colorscheme nord
 
-    let s:FONT_SIZE = empty($FONT_SIZE) ? 18 : $FONT_SIZE
+    let s:FONT_SIZE = empty($FONT_SIZE) ? 12 : $FONT_SIZE
 
     if s:LINUX
         let &guifont = "Fira Code " .. s:FONT_SIZE
