@@ -1,5 +1,5 @@
 " ============================================================================
-" File:        plugin/buildMate.vim
+" File:        ftplugin/vim.vim
 " Version:     1.0
 " LICENSE:     MIT
 " Modified:    2014-10-24
@@ -9,9 +9,12 @@
 
 scriptencoding utf-8
 
-if exists('g:loaded_build_mate') || &compatible
-    finish
-endif
-let g:loaded_build_mate = v:true
+setlocal expandtab shiftwidth=4 softtabstop=4 tabstop=8
 
-command! BuildMateFormatToggle call buildMate#FormatToggle() | echo
+let b:build = {}
+
+let b:build['cmd'] = "vim --clean --cmd 'source %:S | qall!'"
+
+if exists('g:loaded_basic_delimit')
+    BasicDelimitBufferEnable
+endif

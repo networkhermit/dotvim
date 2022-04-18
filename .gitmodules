@@ -1,27 +1,30 @@
-[submodule "pack/dist/start/colorschemes"]
-	path = pack/dist/start/colorschemes
+[submodule "pack/community/start/colorschemes"]
+	path = pack/community/start/colorschemes
 	url = https://github.com/vim/colorschemes.git
-[submodule "pack/dist/start/dracula"]
-	path = pack/dist/start/dracula
+[submodule "pack/community/start/dracula"]
+	path = pack/community/start/dracula
 	url = https://github.com/dracula/vim.git
-[submodule "pack/dist/start/gruvbox"]
-	path = pack/dist/start/gruvbox
+[submodule "pack/community/start/gruvbox"]
+	path = pack/community/start/gruvbox
 	url = https://github.com/morhetz/gruvbox.git
-[submodule "pack/dist/start/nord"]
-	path = pack/dist/start/nord
+[submodule "pack/community/start/nord"]
+	path = pack/community/start/nord
 	url = https://github.com/arcticicestudio/nord-vim.git
-[submodule "pack/dist/start/onedark"]
-	path = pack/dist/start/onedark
+[submodule "pack/community/start/onedark"]
+	path = pack/community/start/onedark
 	url = https://github.com/joshdick/onedark.vim.git
-[submodule "pack/dist/start/vim-airline"]
-	path = pack/dist/start/vim-airline
+[submodule "pack/community/start/vim-airline"]
+	path = pack/community/start/vim-airline
 	url = https://github.com/vim-airline/vim-airline.git
-[submodule "pack/dist/start/vim-fugitive"]
-	path = pack/dist/start/vim-fugitive
+[submodule "pack/community/start/vim-fugitive"]
+	path = pack/community/start/vim-fugitive
 	url = https://github.com/tpope/vim-fugitive.git
-[submodule "pack/dist/start/vim-gitgutter"]
-	path = pack/dist/start/vim-gitgutter
+[submodule "pack/community/start/vim-gitgutter"]
+	path = pack/community/start/vim-gitgutter
 	url = https://github.com/airblade/vim-gitgutter.git
-[submodule "pack/dist/start/vim-vinegar"]
-	path = pack/dist/start/vim-vinegar
+[submodule "pack/community/start/vim-surround"]
+	path = pack/community/start/vim-surround
+	url = https://github.com/tpope/vim-surround.git
+[submodule "pack/community/start/vim-vinegar"]
+	path = pack/community/start/vim-vinegar
 	url = https://github.com/tpope/vim-vinegar.git

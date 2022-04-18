@@ -35,15 +35,15 @@ let s:MACOS = v:false
 let s:TERMINAL = v:true
 let s:WINDOWS = v:false
 
-if has("gui_running")
+if has('gui_running')
     let s:TERMINAL = v:false
 endif
 
-if has("linux")
+if has('linux')
     let s:LINUX = v:true
-elseif has("mac")
+elseif has('mac')
     let s:MACOS = v:true
-elseif has("win64")
+elseif has('win64')
     let s:WINDOWS = v:true
 endif
 
@@ -144,9 +144,9 @@ set wildmode=longest:full,full
 " SECTION:  SCHEME {{{
 
 if s:TERMINAL
-    if !has("nvim")
+    if !has('nvim')
         set ttymouse=sgr
-        if &term == "tmux-256color"
+        if &term is# 'tmux-256color'
             let &t_BE = "\<Esc>[?2004h"
             let &t_BD = "\<Esc>[?2004l"
             let &t_PS = "\<Esc>[200~"
@@ -172,7 +172,7 @@ if s:TERMINAL
         highlight SignColumn   NONE
     endif
 else
-    if !has("nvim")
+    if !has('nvim')
         if s:WINDOWS
             set renderoptions=type:directx
         endif
@@ -184,9 +184,9 @@ else
     let s:FONT_SIZE = empty($FONT_SIZE) ? 12 : $FONT_SIZE
 
     if s:LINUX
-        let &guifont = "Fira Code " .. s:FONT_SIZE
+        let &guifont = 'Fira Code ' .. s:FONT_SIZE
     elseif s:MACOS || s:WINDOWS
-        let &guifont = "Fira Code:h" .. s:FONT_SIZE
+        let &guifont = 'Fira Code:h' .. s:FONT_SIZE
     endif
 endif
 
@@ -195,9 +195,6 @@ endif
 
 runtime ftplugin/man.vim
 
-let g:PHP_default_indenting = 1
-let g:html_indent_script1 = "inc"
-let g:html_indent_style1 = "inc"
 let g:netrw_dirhistmax = 0
 
 " }}}
@@ -205,9 +202,9 @@ let g:netrw_dirhistmax = 0
 " SECTION:  EntryHook {{{
 
 function! s:EntryHook() abort
-    for winid in gettabinfo(tabpagenr())[0]["windows"]
-        call win_execute(winid, "setlocal colorcolumn= nocursorline norelativenumber")
-        call win_execute(winid, "let &l:number = winwidth(0) > &l:textwidth")
+    for l:winid in gettabinfo(tabpagenr())[0]['windows']
+        call win_execute(l:winid, 'setlocal colorcolumn= nocursorline norelativenumber')
+        call win_execute(l:winid, 'let &l:number = winwidth(0) > &l:textwidth')
     endfor
     if winwidth(0) > &l:textwidth
         setlocal colorcolumn=+1 cursorline
@@ -218,13 +215,13 @@ endfunction
 " }}}
 " SECTION:  ToggleRelativeNumber {{{
 
-if !exists("s:relativenumber")
+if !exists('s:relativenumber')
     let s:relativenumber = &relativenumber
 endif
 
 function! ToggleRelativeNumber() abort
-    for w in getwininfo()
-        call win_execute(w.winid, "let &g:relativenumber = " .. !s:relativenumber)
+    for l:w in getwininfo()
+        call win_execute(l:w.winid, 'let &g:relativenumber = ' .. !s:relativenumber)
     endfor
     let &l:relativenumber = &g:relativenumber && &l:number
     let s:relativenumber = !s:relativenumber
@@ -234,7 +231,7 @@ endfunction
 " }}}
 " SECTION:  COMMAND {{{
 
-command! W silent execute "write !sudo tee %:S > /dev/null" | edit!
+command! W silent execute 'write !sudo tee %:S > /dev/null' | edit!
 
 " }}}
 " SECTION:  MAPPING {{{
@@ -315,20 +312,19 @@ xnoremap <Right> <Nop>
 
 augroup MyAutocmdGroup
     autocmd!
-    autocmd BufRead     *   GitGutter
-    autocmd BufWinEnter *   call s:EntryHook()
-    autocmd BufWrite    *   GitGutter
-    autocmd BufWritePre *   call buildMate#Format()
-    autocmd CursorHold  *   echo
-    autocmd CursorHoldI *   stopinsert
-    autocmd FileType    *   setlocal shiftwidth< softtabstop< tabstop<
-    autocmd FileType    vim setlocal foldmethod=marker
-    autocmd GUIEnter    *   set columns=9999 lines=999
-    autocmd InsertEnter *   setlocal nolist | echo
-    autocmd InsertLeave *   setlocal list
-    autocmd VimLeave    *   call delete($HOME .. "/.viminfo")
-    autocmd VimResized  *   call s:EntryHook()
-    autocmd WinEnter    *   call s:EntryHook()
+    autocmd BufReadPost  *   GitGutter
+    autocmd BufWinEnter  *   call s:EntryHook()
+    autocmd BufWritePost *   GitGutter
+    autocmd BufWritePre  *   call buildMate#Format()
+    autocmd CursorHold   *   echo
+    autocmd CursorHoldI  *   stopinsert
+    autocmd FileType     vim setlocal foldmethod=marker
+    autocmd GUIEnter     *   set columns=9999 lines=999
+    autocmd InsertEnter  *   setlocal nolist | echo
+    autocmd InsertLeave  *   setlocal list
+    autocmd VimLeave     *   call delete($HOME .. '/.viminfo')
+    autocmd VimResized   *   call s:EntryHook()
+    autocmd WinEnter     *   call s:EntryHook()
 augroup END
 
 " }}}

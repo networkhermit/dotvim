@@ -9,19 +9,24 @@
 
 scriptencoding utf-8
 
-if &filetype == "cpp"
+if &filetype is# 'cpp' && expand('%:e') isnot? 'h'
     finish
 endif
 
-if exists("b:build_filetype_c")
-    finish
+setlocal expandtab shiftwidth=2 softtabstop=2 tabstop=8
+
+let b:build = {}
+
+let b:build['fmt'] = []
+eval b:build['fmt']->add(['clang-format', '--assume-filename', 'lang.c', '--style', 'file'])
+
+let s:build_opt = ' -O0 -g3 -Wall -Werror -std=c18 -x c -o %:t:r:S '
+let b:build['cmd'] = 'gcc' .. s:build_opt .. '%:S -lm && clang' .. s:build_opt .. '%:S -lm && ./%:t:r:S'
+unlet s:build_opt
+
+let b:build['post_hook'] = []
+eval b:build['post_hook']->add('call delete(expand("#:t:r"))')
+
+if exists('g:loaded_basic_delimit')
+    BasicDelimitBufferEnable
 endif
-
-let b:BUILD_OPT = " -O0 -g3 -Wall -Werror -std=c18 -x c -o %:t:r:S "
-let b:BUILD_CMD = "gcc" .. b:BUILD_OPT .. "%:S -lm && clang" .. b:BUILD_OPT .. "%:S -lm && ./%:t:r:S"
-unlet b:BUILD_OPT
-
-let b:POST_BUILD_ACTION = []
-eval b:POST_BUILD_ACTION->add('call delete(expand("#:t:r"))')
-
-let b:build_filetype_c = v:true

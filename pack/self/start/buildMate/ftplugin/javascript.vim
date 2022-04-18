@@ -9,10 +9,15 @@
 
 scriptencoding utf-8
 
-if exists("b:build_filetype_javascript")
-    finish
+setlocal expandtab shiftwidth=2 softtabstop=2 tabstop=8
+
+let b:build = {}
+
+let b:build['fmt'] = []
+eval b:build['fmt']->add(['standard', '--fix', '--stdin'])
+
+let b:build['cmd'] = 'node --throw-deprecation --trace-warnings %:S'
+
+if exists('g:loaded_basic_delimit')
+    BasicDelimitBufferEnable
 endif
-
-let b:BUILD_CMD = "node --throw-deprecation --trace-warnings %:S"
-
-let b:build_filetype_javascript = v:true

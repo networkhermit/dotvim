@@ -9,13 +9,16 @@
 
 scriptencoding utf-8
 
-if exists("b:build_filetype_python")
-    finish
+setlocal expandtab shiftwidth=4 softtabstop=4 tabstop=8
+
+let b:build = {}
+
+let b:build['fmt'] = []
+eval b:build['fmt']->add(['isort', '-'])
+eval b:build['fmt']->add(['black', '--quiet', '-'])
+
+let b:build['cmd'] = 'python3 -d -W:all -B %:S'
+
+if exists('g:loaded_basic_delimit')
+    BasicDelimitBufferEnable
 endif
-
-let b:FORMATTER = []
-eval b:FORMATTER->add("black --quiet -")
-
-let b:BUILD_CMD = "python3 -d -W:all -B %:S"
-
-let b:build_filetype_python = v:true

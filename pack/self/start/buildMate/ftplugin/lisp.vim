@@ -9,12 +9,14 @@
 
 scriptencoding utf-8
 
-if exists("b:build_filetype_lisp")
-    finish
+setlocal expandtab shiftwidth=2 softtabstop=2 tabstop=8
+
+let b:build = {}
+
+let s:build_opt = ' --noinform --non-interactive --no-sysinit '
+let b:build['cmd'] = 'sbcl ' .. s:build_opt .. '--load %:S --eval "(when (fboundp ''main) (main))"'
+unlet s:build_opt
+
+if exists('g:loaded_basic_delimit')
+    BasicDelimitBufferEnable
 endif
-
-let b:BUILD_OPT = " --noinform --non-interactive --no-sysinit "
-let b:BUILD_CMD = "sbcl " .. b:BUILD_OPT .. "--load %:S --eval \"(when (fboundp 'main) (main))\""
-unlet b:BUILD_OPT
-
-let b:build_filetype_lisp = v:true

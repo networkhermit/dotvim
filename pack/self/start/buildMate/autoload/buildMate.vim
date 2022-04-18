@@ -10,16 +10,35 @@
 scriptencoding utf-8
 
 function! buildMate#Format() abort " {{{
-    if !exists("b:FORMATTER")
+    if !exists('b:build')
         return
     endif
-    for action in b:FORMATTER
-        let l:stdout = systemlist(action, bufnr())
-        if v:shell_error != 0
-            if v:shell_error == 127
-                echomsg &filetype .. " formatter `" .. action .. "` not found"
+    if get(g:, 'build_mate_format_disabled', v:false)
+        return
+    endif
+    for l:fmt in get(b:build, 'fmt', [])
+        try
+            let l:temp = tempname()
+            let l:stdout = systemlist('{ ' .. l:fmt->join() .. '; } 2>' .. l:temp, bufnr())
+        finally
+            let l:stderr = []
+            if filereadable(l:temp)
+                let l:stderr = readfile(l:temp)
+                call delete(l:temp)
+            endif
+        endtry
+        if v:shell_error || !empty(l:stderr)
+            if v:shell_error is 127
+                echohl WarningMsg
+                echomsg 'formatter ' .. l:fmt[0] .. ' not found'
+                echohl None
             else
-                echoerr &filetype .. " formatter `" .. action .. "` failed with exit code " .. v:shell_error .. ": " .. l:stdout->string()
+                echohl ErrorMsg
+                echomsg 'formatter ' .. l:fmt[0] .. ' failed with exit code ' .. v:shell_error .. ':'
+                for l:line in empty(l:stderr) ? l:stdout : l:stderr
+                    echomsg l:line
+                endfor
+                echohl None
             endif
             continue
         endif
@@ -32,27 +51,24 @@ function! buildMate#Format() abort " {{{
     endfor
 endfunction " }}}
 
+function! s:ExecutePostHook(channel) abort " {{{
+    for l:hook in get(getbufvar('#', 'build'), 'post_hook', [])
+        execute l:hook
+    endfor
+endfunction " }}}
+
 function! buildMate#Run() abort " {{{
     update
-
-    if !has("terminal")
+    if !exists('b:build["cmd"]')
         return
     endif
+    call term_start(['/bin/bash', '-c' , expandcmd(b:build['cmd'])], {'close_cb': 's:ExecutePostHook'})
+endfunction " }}}
 
-    if !exists("b:BUILD_CMD")
-        return
+function! buildMate#FormatToggle() abort " {{{
+    if get(g:, 'build_mate_format_disabled', v:false)
+        unlet! g:build_mate_format_disabled
+    else
+        let g:build_mate_format_disabled = v:true
     endif
-
-    let s:POST_BUILD_ACTION = []
-    function! s:cleanUp(channel) abort
-        for action in s:POST_BUILD_ACTION
-            execute action
-        endfor
-    endfunction
-
-    if exists("b:POST_BUILD_ACTION")
-        let s:POST_BUILD_ACTION = b:POST_BUILD_ACTION
-    endif
-
-    call term_start(["/bin/bash", "-c" , expandcmd(b:BUILD_CMD)], {"close_cb": "s:cleanUp"})
 endfunction " }}}

@@ -9,16 +9,18 @@
 
 scriptencoding utf-8
 
-if exists("b:build_filetype_rust")
-    finish
+setlocal expandtab shiftwidth=4 softtabstop=4 tabstop=8
+
+let b:build = {}
+
+let b:build['fmt'] = []
+eval b:build['fmt']->add(['rustfmt'])
+
+let b:build['cmd'] = 'rustc -C opt-level=0 -g %:S && ./%:t:r:S'
+
+let b:build['post_hook'] = []
+eval b:build['post_hook']->add('call delete(expand("#:t:r"))')
+
+if exists('g:loaded_basic_delimit')
+    BasicDelimitBufferEnable
 endif
-
-let b:FORMATTER = []
-eval b:FORMATTER->add("rustfmt")
-
-let b:BUILD_CMD = "rustc -C opt-level=0 -g %:S && ./%:t:r:S"
-
-let b:POST_BUILD_ACTION = []
-eval b:POST_BUILD_ACTION->add('call delete(expand("#:t:r"))')
-
-let b:build_filetype_rust = v:true

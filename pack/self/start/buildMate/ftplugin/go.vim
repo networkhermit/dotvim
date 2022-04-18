@@ -9,16 +9,19 @@
 
 scriptencoding utf-8
 
-if exists("b:build_filetype_go")
-    finish
+setlocal noexpandtab shiftwidth=8 softtabstop=0 tabstop=8
+
+let b:build = {}
+
+let b:build['fmt'] = []
+eval b:build['fmt']->add(['goimports'])
+eval b:build['fmt']->add(['gofmt', '-s'])
+
+let b:build['cmd'] = 'go run %:S'
+
+let b:build['post_hook'] = []
+eval b:build['post_hook']->add('call system("go clean -cache")')
+
+if exists('g:loaded_basic_delimit')
+    BasicDelimitBufferEnable
 endif
-
-let b:FORMATTER = []
-eval b:FORMATTER->add("gofmt")
-
-let b:BUILD_CMD = "go run %:S"
-
-let b:POST_BUILD_ACTION = []
-eval b:POST_BUILD_ACTION->add('call system("go clean -cache")')
-
-let b:build_filetype_go = v:true

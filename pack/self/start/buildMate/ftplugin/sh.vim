@@ -9,10 +9,12 @@
 
 scriptencoding utf-8
 
-if exists("b:build_filetype_sh")
-    finish
+setlocal expandtab shiftwidth=4 softtabstop=4 tabstop=8
+
+let b:build = {}
+
+let b:build['cmd'] = 'shellcheck %:S && bash %:S'
+
+if exists('g:loaded_basic_delimit')
+    BasicDelimitBufferEnable
 endif
-
-let b:BUILD_CMD = "shellcheck %:S && bash %:S"
-
-let b:build_filetype_sh = v:true
