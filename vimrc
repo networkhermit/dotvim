@@ -170,6 +170,7 @@ if s:TERMINAL
         highlight Folded       NONE ctermfg=245 cterm=bold
         highlight LineNr       NONE ctermfg=242
         highlight SignColumn   NONE
+        highlight VertSplit    NONE
     endif
 else
     if !has('nvim')
@@ -267,11 +268,6 @@ nnoremap <C-L>   <Cmd>nohlsearch<Bar>diffupdate<CR><C-L>
 nnoremap <C-N>   <Cmd>bnext<CR>
 nnoremap <C-P>   <Cmd>bprevious<CR>
 
-nnoremap <Up>    <Nop>
-nnoremap <Down>  <Nop>
-nnoremap <Left>  <Nop>
-nnoremap <Right> <Nop>
-
 " }}}
 " SECTION:  TERMINAL {{{
 
@@ -291,7 +287,7 @@ xnoremap K       <Nop>
 xnoremap Q       <Nop>
 
 xnoremap H       <Nop>
-xnoremap M       <Esc><Cmd>'<,'>sort l<CR>
+xnoremap M       <Esc><Cmd>'<,'>sort<CR>
 xnoremap L       <Nop>
 
 xnoremap <C-H>   <Nop>
@@ -300,11 +296,6 @@ xnoremap <C-K>   <Nop>
 xnoremap <C-L>   <Nop>
 xnoremap <C-N>   <Nop>
 xnoremap <C-P>   <Nop>
-
-xnoremap <Up>    <Nop>
-xnoremap <Down>  <Nop>
-xnoremap <Left>  <Nop>
-xnoremap <Right> <Nop>
 
 " }}}
 " }}}
