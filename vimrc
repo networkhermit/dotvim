@@ -32,12 +32,7 @@ filetype plugin indent on
 
 let s:LINUX = v:false
 let s:MACOS = v:false
-let s:TERMINAL = v:true
 let s:WINDOWS = v:false
-
-if has('gui_running')
-    let s:TERMINAL = v:false
-endif
 
 if has('linux')
     let s:LINUX = v:true
@@ -45,6 +40,17 @@ elseif has('mac')
     let s:MACOS = v:true
 elseif has('win64')
     let s:WINDOWS = v:true
+endif
+
+let s:TERMINAL = v:true
+let s:VANILLA_VIM = v:true
+
+if has('gui_running')
+    let s:TERMINAL = v:false
+endif
+
+if has('nvim')
+    let s:VANILLA_VIM = v:false
 endif
 
 " }}}
@@ -144,7 +150,7 @@ set wildmode=longest:full,full
 " SECTION:  SCHEME {{{
 
 if s:TERMINAL
-    if !has('nvim')
+    if s:VANILLA_VIM
         set ttymouse=sgr
         if &term is# 'tmux-256color'
             let &t_BE = "\<Esc>[?2004h"
@@ -173,7 +179,7 @@ if s:TERMINAL
         highlight VertSplit    NONE
     endif
 else
-    if !has('nvim')
+    if s:VANILLA_VIM
         if s:WINDOWS
             set renderoptions=type:directx
         endif
@@ -211,6 +217,19 @@ function! s:EntryHook() abort
         setlocal colorcolumn=+1 cursorline
     endif
     let &l:relativenumber = &g:relativenumber && &l:number
+endfunction
+
+" }}}
+" SECTION:  OpenInTerminal {{{
+
+function! OpenInTerminal() abort
+    if s:VANILLA_VIM
+        terminal
+    else
+        new
+        terminal
+        autocmd TermClose <buffer> ++once execute 'bwipeout! ' .. expand('<abuf>')
+    endif
 endfunction
 
 " }}}
@@ -254,7 +273,7 @@ nnoremap _       <Cmd>set termguicolors!<Bar>call ToggleRelativeNumber()<CR>
 nnoremap '       `
 nnoremap `       '
 
-nnoremap K       <Cmd>call buildMate#Run()<CR>
+nnoremap K       <Cmd>call OpenInTerminal()<CR>
 nnoremap Q       ZQ
 
 nnoremap <F2>    <Cmd>split $MYVIMRC<CR>
@@ -271,8 +290,10 @@ nnoremap <C-P>   <Cmd>bprevious<CR>
 " }}}
 " SECTION:  TERMINAL {{{
 
-tnoremap <C-J>   <C-W>j
-tnoremap <C-K>   <C-W>k
+if s:VANILLA_VIM
+tnoremap <C-J>   <C-W>j<CR>
+tnoremap <C-K>   <C-W>k<CR>
+endif
 
 " }}}
 " SECTION:  VISUAL {{{
@@ -317,6 +338,12 @@ augroup MyAutocmdGroup
     autocmd VimResized   *   call s:EntryHook()
     autocmd WinEnter     *   call s:EntryHook()
 augroup END
+
+if !s:VANILLA_VIM
+    augroup NeovimTweak
+        autocmd TermOpen * setlocal nonumber norelativenumber | startinsert
+    augroup END
+endif
 
 " }}}
 
