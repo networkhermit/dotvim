@@ -217,6 +217,13 @@ function! s:EntryHook() abort
         setlocal colorcolumn=+1 cursorline
     endif
     let &l:relativenumber = &g:relativenumber && &l:number
+    if !s:VANILLA_VIM
+        for l:winid in gettabinfo(tabpagenr())[0]['windows']
+            if getwinvar(l:winid, '&buftype') is# 'terminal'
+                call win_execute(l:winid, 'setlocal nonumber norelativenumber')
+            endif
+        endfor
+    endif
 endfunction
 
 " }}}
@@ -290,9 +297,11 @@ nnoremap <C-P>   <Cmd>bprevious<CR>
 " }}}
 " SECTION:  TERMINAL {{{
 
+tnoremap <C-J>   <Cmd>wincmd j<CR>
+tnoremap <C-K>   <Cmd>wincmd k<CR>
+
 if s:VANILLA_VIM
-tnoremap <C-J>   <C-W>j<CR>
-tnoremap <C-K>   <C-W>k<CR>
+tnoremap <C-W>   <C-W>.
 endif
 
 " }}}
@@ -324,24 +333,22 @@ xnoremap <C-P>   <Nop>
 
 augroup MyAutocmdGroup
     autocmd!
-    autocmd BufReadPost  *   GitGutter
-    autocmd BufWinEnter  *   call s:EntryHook()
-    autocmd BufWritePost *   GitGutter
-    autocmd BufWritePre  *   call buildMate#Format()
-    autocmd CursorHold   *   echo
-    autocmd CursorHoldI  *   stopinsert
-    autocmd FileType     vim setlocal foldmethod=marker
-    autocmd GUIEnter     *   set columns=9999 lines=999
-    autocmd InsertEnter  *   setlocal nolist | echo
-    autocmd InsertLeave  *   setlocal list
-    autocmd VimLeave     *   call delete($HOME .. '/.viminfo')
-    autocmd VimResized   *   call s:EntryHook()
-    autocmd WinEnter     *   call s:EntryHook()
+    autocmd BufReadPost,BufWritePost * GitGutter
+    autocmd BufWinEnter,VimResized,WinEnter * call s:EntryHook()
+    autocmd BufWritePre * call buildMate#Format()
+    autocmd CursorHold * echo
+    autocmd CursorHoldI * stopinsert
+    autocmd FileType vim setlocal foldmethod=marker
+    autocmd GUIEnter * set columns=9999 lines=999
+    autocmd InsertEnter * setlocal nolist | echo
+    autocmd InsertLeave * setlocal list
+    autocmd VimLeave * call delete(expand('~/.viminfo'))
+    autocmd VimResized * wincmd =
 augroup END
 
 if !s:VANILLA_VIM
     augroup NeovimTweak
-        autocmd TermOpen * setlocal nonumber norelativenumber | startinsert
+        autocmd BufEnter,TermOpen term://* setlocal nonumber norelativenumber | startinsert
     augroup END
 endif
 
