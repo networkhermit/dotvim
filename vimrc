@@ -206,38 +206,58 @@ let g:netrw_dirhistmax = 0
 
 " }}}
 " SECTION:  FUNCTION {{{
-" SECTION:  EntryHook {{{
+" SECTION:  LayoutChangedHook {{{
 
-function! s:EntryHook() abort
-    for l:winid in gettabinfo(tabpagenr())[0]['windows']
-        call win_execute(l:winid, 'setlocal colorcolumn= nocursorline norelativenumber')
-        call win_execute(l:winid, 'let &l:number = winwidth(0) > &l:textwidth')
+function! s:Callback() abort
+    set colorcolumn< cursorline< number< relativenumber<
+endfunction
+
+if !s:VANILLA_VIM
+function! s:Callback() abort
+    if &buftype isnot# 'terminal'
+        set colorcolumn< cursorline< number< relativenumber<
+    endif
+endfunction
+endif
+
+function! s:Dim() abort
+    setglobal colorcolumn= nocursorline norelativenumber
+    call s:Callback()
+endfunction
+
+function! s:Focus() abort
+    let l:sufficient = winwidth(0) > &g:textwidth
+    if l:sufficient
+        setglobal colorcolumn=+1 cursorline
+    endif
+    let &g:number = l:sufficient
+    let &g:relativenumber = s:relativenumber && &g:number
+    call s:Callback()
+endfunction
+
+function! s:LayoutChangedHook() abort
+    wincmd =
+    let l:winid = gettabinfo(tabpagenr())[0]['windows']
+    for l:id in l:winid
+        call win_execute(l:id, 'let &g:number = winwidth(0) > &g:textwidth | set number<')
     endfor
-    if winwidth(0) > &l:textwidth
-        setlocal colorcolumn=+1 cursorline
-    endif
-    let &l:relativenumber = &g:relativenumber && &l:number
-    if !s:VANILLA_VIM
-        for l:winid in gettabinfo(tabpagenr())[0]['windows']
-            if getwinvar(l:winid, '&buftype') is# 'terminal'
-                call win_execute(l:winid, 'setlocal nonumber norelativenumber')
-            endif
-        endfor
-    endif
+    call s:Focus()
 endfunction
 
 " }}}
 " SECTION:  OpenInTerminal {{{
 
 function! OpenInTerminal() abort
-    if s:VANILLA_VIM
-        terminal
-    else
-        new
-        terminal
-        autocmd TermClose <buffer> ++once execute 'bwipeout! ' .. expand('<abuf>')
-    endif
+    terminal
 endfunction
+
+if !s:VANILLA_VIM
+function! OpenInTerminal() abort
+    new
+    terminal
+    autocmd TermClose <buffer> execute 'bwipeout! ' .. expand('<abuf>')
+endfunction
+endif
 
 " }}}
 " SECTION:  ToggleRelativeNumber {{{
@@ -247,11 +267,9 @@ if !exists('s:relativenumber')
 endif
 
 function! ToggleRelativeNumber() abort
-    for l:w in getwininfo()
-        call win_execute(l:w.winid, 'let &g:relativenumber = ' .. !s:relativenumber)
-    endfor
-    let &l:relativenumber = &g:relativenumber && &l:number
     let s:relativenumber = !s:relativenumber
+    let &g:relativenumber = s:relativenumber && &g:number
+    call s:Callback()
 endfunction
 
 " }}}
@@ -334,21 +352,45 @@ xnoremap <C-P>   <Nop>
 augroup MyAutocmdGroup
     autocmd!
     autocmd BufReadPost,BufWritePost * GitGutter
-    autocmd BufWinEnter,VimResized,WinEnter * call s:EntryHook()
+    autocmd BufWinEnter * call s:Callback()
     autocmd BufWritePre * call buildMate#Format()
     autocmd CursorHold * echo
     autocmd CursorHoldI * stopinsert
     autocmd FileType vim setlocal foldmethod=marker
+    autocmd FocusGained,VimEnter,WinEnter * call s:Focus()
+    autocmd FocusLost,WinLeave * call s:Dim()
     autocmd GUIEnter * set columns=9999 lines=999
     autocmd InsertEnter * setlocal nolist | echo
     autocmd InsertLeave * setlocal list
     autocmd VimLeave * call delete(expand('~/.viminfo'))
-    autocmd VimResized * wincmd =
+    autocmd VimResized * call s:LayoutChangedHook()
 augroup END
 
 if !s:VANILLA_VIM
+    function! s:TerminalEnteredHook() abort
+        setlocal nonumber norelativenumber
+        startinsert
+    endfunction
+
+    function! s:TerminalResizedHook() abort
+        if mode() is# 't'
+            setlocal nonumber norelativenumber
+        else
+            set number< relativenumber<
+        endif
+    endfunction
+
+    function! s:TerminalOpenedHook() abort
+        call s:TerminalEnteredHook()
+        autocmd BufEnter <buffer> call s:TerminalEnteredHook()
+        autocmd TermEnter <buffer> call s:TerminalEnteredHook()
+        autocmd TermLeave <buffer> set number< relativenumber<
+        autocmd VimResized <buffer> call s:TerminalResizedHook()
+    endfunction
+
     augroup NeovimTweak
-        autocmd BufEnter,TermOpen term://* setlocal nonumber norelativenumber | startinsert
+        autocmd!
+        autocmd TermOpen * call s:TerminalOpenedHook()
     augroup END
 endif
 
