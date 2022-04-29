@@ -149,6 +149,14 @@ set wildmode=longest:full,full
 " }}}
 " SECTION:  SCHEME {{{
 
+if s:WINDOWS
+    set shell=pwsh.exe
+    set shellcmdflag=-Command
+    if s:VANILLA_VIM
+        set renderoptions=type:directx
+    endif
+endif
+
 if s:TERMINAL
     if s:VANILLA_VIM
         set ttymouse=sgr
@@ -163,6 +171,8 @@ if s:TERMINAL
 
             let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
             let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+        elseif s:WINDOWS
+            set t_Co=256
         endif
     endif
 
@@ -179,12 +189,6 @@ if s:TERMINAL
         highlight VertSplit    NONE
     endif
 else
-    if s:VANILLA_VIM
-        if s:WINDOWS
-            set renderoptions=type:directx
-        endif
-    endif
-
     set background=dark
     colorscheme nord
 
@@ -366,7 +370,22 @@ augroup MyAutocmdGroup
     autocmd VimResized * call s:LayoutChangedHook()
 augroup END
 
-if !s:VANILLA_VIM
+if s:VANILLA_VIM
+    function! s:VimResizedHook() abort
+        if !empty($TMUX)
+            if systemlist('tmux display-message -p -t "${TMUX_PANE}" "#{pane_active}"') == ['0']
+                doautocmd FocusLost
+            else
+                doautocmd FocusGained
+            endif
+        endif
+    endfunction
+
+    augroup VimTweak
+        autocmd!
+        autocmd VimResized * call s:VimResizedHook()
+    augroup END
+else
     function! s:TerminalEnteredHook() abort
         setlocal nonumber norelativenumber
         startinsert
