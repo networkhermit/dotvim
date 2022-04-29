@@ -11,9 +11,9 @@ scriptencoding utf-8
 
 " Initialize Token {{{
 
-let s:Parens = ['{}', '[]', '()']
-let s:Quotes = ['""', "''", '``']
-let s:Delimiters = s:Parens + s:Quotes
+let s:parens = ['{}', '[]', '()']
+let s:quotes = ['""', "''", '``']
+let s:delimiters = s:parens + s:quotes
 
 " }}}
 
@@ -50,7 +50,7 @@ endfunction " }}}
 function! basicDelimit#TypingBackSpace() abort " {{{
     let l:surroundings = strpart(getline('.'), col('.') - 2, 2)
 
-    for delimiter in s:Delimiters
+    for delimiter in s:delimiters
         if l:surroundings is# delimiter
             return "\<Delete>\<BS>"
         endif
@@ -62,7 +62,7 @@ endfunction " }}}
 function! basicDelimit#TypingCarriageReturn() abort " {{{
     let l:surroundings = strpart(getline('.'), col('.') - 2, 2)
 
-    for delimiter in s:Parens
+    for delimiter in s:parens
         if l:surroundings is# delimiter
             return "\<CR>\<Esc>O"
         endif

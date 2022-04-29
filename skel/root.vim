@@ -1,6 +1,5 @@
 scriptencoding utf-8
 
-set packpath+=/home/vac/.vim
-set runtimepath+=/home/vac/.vim
-
+set runtimepath^=/home/vac/.vim runtimepath+=/home/vac/.vim/after
+let &packpath = &runtimepath
 source /home/vac/.vim/vimrc

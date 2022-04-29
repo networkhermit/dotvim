@@ -192,12 +192,12 @@ else
     set background=dark
     colorscheme nord
 
-    let s:FONT_SIZE = empty($FONT_SIZE) ? 12 : $FONT_SIZE
+    let s:font_size = empty($FONT_SIZE) ? 12 : $FONT_SIZE
 
     if s:LINUX
-        let &guifont = 'Fira Code ' .. s:FONT_SIZE
+        let &guifont = 'Fira Code ' .. s:font_size
     elseif s:MACOS || s:WINDOWS
-        let &guifont = 'Fira Code:h' .. s:FONT_SIZE
+        let &guifont = 'Fira Code:h' .. s:font_size
     endif
 endif
 
@@ -212,11 +212,11 @@ let g:netrw_dirhistmax = 0
 " SECTION:  FUNCTION {{{
 " SECTION:  LayoutChangedHook {{{
 
+if s:VANILLA_VIM
 function! s:Callback() abort
     set colorcolumn< cursorline< number< relativenumber<
 endfunction
-
-if !s:VANILLA_VIM
+else
 function! s:Callback() abort
     if &buftype isnot# 'terminal'
         set colorcolumn< cursorline< number< relativenumber<
@@ -226,24 +226,24 @@ endif
 
 function! s:Dim() abort
     setglobal colorcolumn= nocursorline norelativenumber
+    let &g:number = winwidth(0) > &g:textwidth
     call s:Callback()
 endfunction
 
 function! s:Focus() abort
-    let l:sufficient = winwidth(0) > &g:textwidth
-    if l:sufficient
-        setglobal colorcolumn=+1 cursorline
+    if winwidth(0) > &g:textwidth
+        setglobal colorcolumn=+1 cursorline number
+    else
+        setglobal colorcolumn= nocursorline nonumber
     endif
-    let &g:number = l:sufficient
     let &g:relativenumber = s:relativenumber && &g:number
     call s:Callback()
 endfunction
 
 function! s:LayoutChangedHook() abort
     wincmd =
-    let l:winid = gettabinfo(tabpagenr())[0]['windows']
-    for l:id in l:winid
-        call win_execute(l:id, 'let &g:number = winwidth(0) > &g:textwidth | set number<')
+    for l:winid in gettabinfo(tabpagenr())[0]['windows']
+        call win_execute(l:winid, 'let &g:number = winwidth(0) > &g:textwidth | set number<')
     endfor
     call s:Focus()
 endfunction
@@ -251,11 +251,11 @@ endfunction
 " }}}
 " SECTION:  OpenInTerminal {{{
 
+if s:VANILLA_VIM
 function! OpenInTerminal() abort
     terminal
 endfunction
-
-if !s:VANILLA_VIM
+else
 function! OpenInTerminal() abort
     new
     terminal
@@ -271,9 +271,9 @@ if !exists('s:relativenumber')
 endif
 
 function! ToggleRelativeNumber() abort
-    let s:relativenumber = !s:relativenumber
-    let &g:relativenumber = s:relativenumber && &g:number
+    let &g:relativenumber = !s:relativenumber && &g:number
     call s:Callback()
+    let s:relativenumber = !s:relativenumber
 endfunction
 
 " }}}
