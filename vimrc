@@ -297,7 +297,7 @@ inoremap <C-L>   <Cmd>nohlsearch<Bar>diffupdate<Bar>redraw<CR>
 " SECTION:  NORMAL {{{
 
 nnoremap Y       y$
-nnoremap _       <Cmd>set termguicolors!<Bar>call ToggleRelativeNumber()<CR>
+nnoremap _       <Cmd>call ToggleRelativeNumber()<CR>
 
 nnoremap '       `
 nnoremap `       '
@@ -307,7 +307,7 @@ nnoremap Q       ZQ
 
 nnoremap <F2>    <Cmd>split $MYVIMRC<CR>
 nnoremap <F7>    <Cmd>call buildMate#Run()<CR>
-nnoremap <F12>   <Cmd>setlocal spell!<CR>
+nnoremap <F12>   <Cmd>set termguicolors!<Bar>setlocal spell!<CR>
 
 nmap     <C-H>   <Plug>VinegarUp
 nnoremap <C-J>   <C-W>j
