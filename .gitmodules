@@ -1,15 +1,15 @@
 [submodule "pack/community/start/airline"]
 	path = pack/community/start/airline
 	url = https://github.com/vim-airline/vim-airline.git
-[submodule "pack/community/start/colorschemes"]
-	path = pack/community/start/colorschemes
-	url = https://github.com/vim/colorschemes.git
 [submodule "pack/community/start/dracula"]
 	path = pack/community/start/dracula
 	url = https://github.com/dracula/vim.git
 [submodule "pack/community/start/fugitive"]
 	path = pack/community/start/fugitive
 	url = https://github.com/tpope/vim-fugitive.git
+[submodule "pack/community/start/fzf"]
+	path = pack/community/start/fzf
+	url = https://github.com/junegunn/fzf.vim.git
 [submodule "pack/community/start/gitgutter"]
 	path = pack/community/start/gitgutter
 	url = https://github.com/airblade/vim-gitgutter.git

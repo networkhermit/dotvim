@@ -1,5 +1,5 @@
 " ============================================================================
-" File:        ftplugin/python.vim
+" File:        ftplugin/json.vim
 " Version:     1.0
 " LICENSE:     MIT
 " Modified:    2014-10-24
@@ -9,15 +9,12 @@
 
 scriptencoding utf-8
 
-setlocal expandtab shiftwidth=4 softtabstop=4 tabstop=8
+setlocal noexpandtab shiftwidth=2 softtabstop=2 tabstop=8
 
 let b:build = {}
 
 let b:build['fmt'] = []
-eval b:build['fmt']->add(['ruff', '--exit-zero', '--fix', '--no-cache', '-'])
-eval b:build['fmt']->add(['black', '--quiet', '-'])
-
-let b:build['cmd'] = 'python3 -d -W:all -B %:S'
+eval b:build['fmt']->add(['jq', '--sort-keys', '.'])
 
 if exists('g:loaded_basic_delimit')
     BasicDelimitBufferEnable

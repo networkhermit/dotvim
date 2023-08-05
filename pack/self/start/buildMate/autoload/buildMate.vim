@@ -16,6 +16,9 @@ function! buildMate#Format() abort " {{{
     if get(g:, 'build_mate_format_disabled', v:false)
         return
     endif
+    if index(g:build_mate_format_disabled_filetypes, &filetype) >= 0
+        return
+    endif
     if line2byte(1) is -1
       return
     endif

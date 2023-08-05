@@ -14,4 +14,8 @@ if exists('g:loaded_build_mate') || &compatible
 endif
 let g:loaded_build_mate = v:true
 
+if !exists('g:build_mate_format_disabled_filetypes')
+    let g:build_mate_format_disabled_filetypes = []
+endif
+
 command! BuildMateFormatToggle call buildMate#FormatToggle() | echo
