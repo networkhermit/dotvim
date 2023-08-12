@@ -1,5 +1,5 @@
 " ============================================================================
-" File:        ftplugin/terraform.vim
+" File:        ftplugin/nix.vim
 " Version:     1.0
 " LICENSE:     MIT
 " Modified:    2014-10-24
@@ -14,7 +14,7 @@ setlocal expandtab shiftwidth=2 softtabstop=2 tabstop=8
 let b:build = {}
 
 let b:build['fmt'] = []
-eval b:build['fmt']->add(['terraform', 'fmt', '-'])
+eval b:build['fmt']->add(['alejandra', '--quiet'])
 
 if exists('g:loaded_basic_delimit')
     BasicDelimitBufferEnable

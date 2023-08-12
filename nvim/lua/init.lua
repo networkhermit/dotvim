@@ -66,69 +66,6 @@ local plugins = {
     event = "InsertEnter",
   },
   {
-    "jose-elias-alvarez/null-ls.nvim",
-    config = function()
-      local null_ls = require("null-ls")
-      local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
-
-      null_ls.setup({
-        on_attach = function(client, bufnr)
-          if client.supports_method("textDocument/formatting") then
-            vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
-            vim.api.nvim_create_autocmd("BufWritePre", {
-              group = augroup,
-              buffer = bufnr,
-              callback = function()
-                vim.lsp.buf.format()
-              end,
-            })
-          end
-        end,
-        sources = {
-          null_ls.builtins.code_actions.shellcheck,
-          null_ls.builtins.diagnostics.ansiblelint,
-          null_ls.builtins.diagnostics.golangci_lint,
-          null_ls.builtins.diagnostics.mypy,
-          null_ls.builtins.diagnostics.opacheck,
-          null_ls.builtins.diagnostics.ruff,
-          null_ls.builtins.diagnostics.shellcheck,
-          null_ls.builtins.diagnostics.staticcheck,
-          null_ls.builtins.diagnostics.terraform_validate,
-          null_ls.builtins.diagnostics.trail_space,
-          null_ls.builtins.diagnostics.yamllint,
-          null_ls.builtins.formatting.alejandra,
-          null_ls.builtins.formatting.jq.with({ extra_args = { "--sort-keys", "." } }),
-          null_ls.builtins.formatting.rego,
-          null_ls.builtins.formatting.rome.with({ disabled_filetypes = { "json" } }),
-          null_ls.builtins.formatting.rustfmt,
-          -- null_ls.builtins.formatting.stylua,
-          null_ls.builtins.formatting.terraform_fmt,
-          null_ls.builtins.formatting.yq.with({ extra_args = { "'sort_keys(..)'" } }),
-
-          null_ls.builtins.formatting.goimports,
-          null_ls.builtins.formatting.gofmt.with({ extra_args = { "-s" } }),
-
-          null_ls.builtins.formatting.ruff,
-          null_ls.builtins.formatting.black,
-        },
-      })
-
-      vim.g.build_mate_format_disabled_filetypes = {
-        "go",
-        "json",
-        -- "lua",
-        "nix",
-        "python",
-        "rust",
-        "terraform",
-        "terraform-vars",
-        "yaml",
-      }
-    end,
-    dependencies = { "nvim-lua/plenary.nvim" },
-    event = { "BufNewFile", "BufReadPre" },
-  },
-  {
     "neovim/nvim-lspconfig",
     config = function()
       local lspconfig = require("lspconfig")

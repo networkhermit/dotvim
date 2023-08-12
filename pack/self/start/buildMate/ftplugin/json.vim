@@ -9,7 +9,7 @@
 
 scriptencoding utf-8
 
-setlocal noexpandtab shiftwidth=2 softtabstop=2 tabstop=8
+setlocal expandtab shiftwidth=2 softtabstop=2 tabstop=8
 
 let b:build = {}
 
