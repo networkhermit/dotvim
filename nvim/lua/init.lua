@@ -117,7 +117,7 @@ local plugins = {
     cmd = { "TSUpdateSync" },
     config = function()
       require("nvim-treesitter.configs").setup({
-        ensure_installed = { "go", "python", "rust", "terraform" },
+        ensure_installed = { "go", "lua", "python", "rust", "terraform" },
         highlight = { enable = true },
         incremental_selection = {
           enable = true,

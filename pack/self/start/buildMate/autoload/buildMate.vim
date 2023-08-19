@@ -68,7 +68,9 @@ function! buildMate#Run() abort " {{{
     if !exists('b:build["cmd"]')
         return
     endif
-    call term_start(['/bin/bash', '-c' , expandcmd(b:build['cmd'])], {'close_cb': 's:ExecutePostHook'})
+    if !has('nvim')
+        call term_start(['/bin/bash', '-c' , expandcmd(b:build['cmd'])], {'close_cb': 's:ExecutePostHook'})
+    endif
 endfunction " }}}
 
 function! buildMate#FormatToggle() abort " {{{
