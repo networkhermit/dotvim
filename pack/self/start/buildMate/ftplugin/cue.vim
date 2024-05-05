@@ -1,5 +1,5 @@
 " ============================================================================
-" File:        ftplugin/rego.vim
+" File:        ftplugin/cue.vim
 " Version:     1.0
 " LICENSE:     MIT
 " Modified:    2014-10-24
@@ -14,7 +14,7 @@ setlocal noexpandtab shiftwidth=8 softtabstop=0 tabstop=8
 let b:build = {}
 
 let b:build['fmt'] = []
-eval b:build['fmt']->add(['opa', 'fmt'])
+eval b:build['fmt']->add(['cue', 'fmt', '--simplify', '-'])
 
 if exists('g:loaded_basic_delimit')
     BasicDelimitBufferEnable
