@@ -74,7 +74,7 @@ local plugins = {
       lspconfig.gopls.setup({ capabilities = capabilities })
       lspconfig.lua_ls.setup({ capabilities = capabilities })
       lspconfig.biome.setup({ capabilities = capabilities })
-      lspconfig.ruff_lsp.setup({ capabilities = capabilities })
+      lspconfig.ruff.setup({ capabilities = capabilities })
       lspconfig.rust_analyzer.setup({
         capabilities = capabilities,
         settings = {
