@@ -14,7 +14,7 @@ setlocal expandtab shiftwidth=2 softtabstop=2 tabstop=8
 let b:build = {}
 
 let b:build['fmt'] = []
-eval b:build['fmt']->add(['alejandra', '--quiet'])
+eval b:build['fmt']->add(['nixfmt'])
 
 if exists('g:loaded_basic_delimit')
     BasicDelimitBufferEnable
