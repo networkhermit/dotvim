@@ -72,8 +72,9 @@ local plugins = {
       local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
       lspconfig.gopls.setup({ capabilities = capabilities })
-      lspconfig.lua_ls.setup({ capabilities = capabilities })
       lspconfig.biome.setup({ capabilities = capabilities })
+      lspconfig.lua_ls.setup({ capabilities = capabilities })
+      lspconfig.nixd.setup({ capabilities = capabilities })
       lspconfig.ruff.setup({ capabilities = capabilities })
       lspconfig.rust_analyzer.setup({
         capabilities = capabilities,
@@ -117,7 +118,21 @@ local plugins = {
     cmd = { "TSUpdateSync" },
     config = function()
       require("nvim-treesitter.configs").setup({
-        ensure_installed = { "cue", "go", "lua", "python", "rust", "terraform" },
+        ensure_installed = {
+          "bash",
+          "cue",
+          "go",
+          "json",
+          "lua",
+          "nickel",
+          "nix",
+          "python",
+          "rego",
+          "rust",
+          "terraform",
+          "toml",
+          "yaml",
+        },
         highlight = { enable = true },
         incremental_selection = {
           enable = true,
