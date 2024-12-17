@@ -14,7 +14,7 @@ setlocal expandtab shiftwidth=4 softtabstop=4 tabstop=8
 let b:build = {}
 
 let b:build['fmt'] = []
-eval b:build['fmt']->add(['ruff', '--exit-zero', '--fix', '--no-cache', '-'])
+eval b:build['fmt']->add(['ruff', 'format', '--no-cache', '-'])
 eval b:build['fmt']->add(['black', '--quiet', '-'])
 
 let b:build['cmd'] = 'python3 -d -W:all -B %:S'

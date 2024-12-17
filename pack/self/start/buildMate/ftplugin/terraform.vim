@@ -14,7 +14,7 @@ setlocal expandtab shiftwidth=2 softtabstop=2 tabstop=8
 let b:build = {}
 
 let b:build['fmt'] = []
-eval b:build['fmt']->add(['terraform', 'fmt', '-'])
+eval b:build['fmt']->add(['tofu', 'fmt', '-'])
 
 if exists('g:loaded_basic_delimit')
     BasicDelimitBufferEnable
