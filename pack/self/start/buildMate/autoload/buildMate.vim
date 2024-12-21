@@ -23,9 +23,18 @@ function! buildMate#Format() abort " {{{
       return
     endif
     for l:fmt in get(b:build, 'fmt', [])
+        if !executable(l:fmt[0])
+            echohl WarningMsg
+            echomsg 'formatter ' .. l:fmt[0] .. ' not found'
+            echohl None
+            continue
+        endif
         try
             let l:temp = tempname()
-            let l:stdout = systemlist('{ ' .. l:fmt->join() .. '; } 2>' .. l:temp, bufnr())
+            let l:stdout = systemlist(l:fmt->join() .. ' 2>' .. l:temp, bufnr())
+            if has('win64')
+                eval l:stdout->map({_, val -> val->trim("\r", 2)})
+            endif
         finally
             let l:stderr = []
             if filereadable(l:temp)
@@ -33,19 +42,13 @@ function! buildMate#Format() abort " {{{
                 call delete(l:temp)
             endif
         endtry
-        if v:shell_error || !empty(l:stderr)
-            if v:shell_error is 127
-                echohl WarningMsg
-                echomsg 'formatter ' .. l:fmt[0] .. ' not found'
-                echohl None
-            else
-                echohl ErrorMsg
-                echomsg 'formatter ' .. l:fmt[0] .. ' failed with exit code ' .. v:shell_error .. ':'
-                for l:line in empty(l:stderr) ? l:stdout : l:stderr
-                    echomsg l:line
-                endfor
-                echohl None
-            endif
+        if !empty(l:stderr)
+            echohl ErrorMsg
+            echomsg 'formatter ' .. l:fmt[0] .. ' failed with exit code ' .. v:shell_error .. ':'
+            for l:line in empty(l:stderr) ? l:stdout : l:stderr
+                echomsg l:line
+            endfor
+            echohl None
             continue
         endif
         let l:before = line('$')
@@ -69,7 +72,7 @@ function! buildMate#Run() abort " {{{
         return
     endif
     if !has('nvim')
-        call term_start(['/bin/bash', '-c' , expandcmd(b:build['cmd'])], {'close_cb': 's:ExecutePostHook'})
+        call term_start(['/usr/bin/env', 'bash', '-c' , expandcmd(b:build['cmd'])], {'close_cb': 's:ExecutePostHook'})
     endif
 endfunction " }}}
 
