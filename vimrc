@@ -345,9 +345,29 @@ xnoremap L       <Nop>
 xnoremap <C-H>   <Nop>
 xnoremap <C-J>   <Nop>
 xnoremap <C-K>   <Nop>
-xnoremap <C-L>   <Nop>
+xnoremap <C-L>   "+y
 xnoremap <C-N>   <Nop>
 xnoremap <C-P>   <Nop>
+
+if s:VANILLA_VIM && !empty($TMUX) && !empty($SSH_CONNECTION)
+function! TmuxCopy() abort
+    let l:result = systemlist('base64 --wrap 0', @")
+    if v:shell_error
+        echohl ErrorMsg
+        echomsg printf('command failed with exit code %s:', v:shell_error)
+        for l:line in l:result
+            echomsg l:line
+        endfor
+        echohl None
+        return
+    endif
+    let l:selection_data = result[0]
+    let l:escape_sequence = printf("\033]52;c;%s\007", l:selection_data)
+    let l:client_tty = empty($SSH_TTY) ? systemlist('tmux display-message -p ''#{client_tty}''')[0] : $SSH_TTY
+    call writefile([l:escape_sequence], l:client_tty, "ab")
+endfunction
+xnoremap <C-L>   y<Cmd>call TmuxCopy()<CR>
+endif
 
 " }}}
 " }}}
@@ -373,7 +393,7 @@ augroup END
 if s:VANILLA_VIM
     function! s:VimResizedHook() abort
         if !empty($TMUX)
-            if systemlist('tmux display-message -p -t "${TMUX_PANE}" "#{pane_active}"') == ['0']
+            if systemlist('tmux display-message -p -t "${TMUX_PANE}" ''#{pane_active}''') == ['0']
                 doautocmd FocusLost
             else
                 doautocmd FocusGained

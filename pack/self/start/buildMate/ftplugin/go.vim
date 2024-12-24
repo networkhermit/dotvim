@@ -20,7 +20,7 @@ eval b:build['fmt']->add(['gofmt', '-s'])
 let b:build['cmd'] = 'go run %:S'
 
 let b:build['post_hook'] = []
-eval b:build['post_hook']->add('call system("go clean -cache")')
+eval b:build['post_hook']->add('call system(''go clean -cache'')')
 
 if exists('g:loaded_basic_delimit')
     BasicDelimitBufferEnable

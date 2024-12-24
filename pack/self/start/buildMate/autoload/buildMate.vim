@@ -42,7 +42,7 @@ function! buildMate#Format() abort " {{{
                 call delete(l:temp)
             endif
         endtry
-        if !empty(l:stderr)
+        if v:shell_error || !empty(l:stderr)
             echohl ErrorMsg
             echomsg 'formatter ' .. l:fmt[0] .. ' failed with exit code ' .. v:shell_error .. ':'
             for l:line in empty(l:stderr) ? l:stdout : l:stderr
