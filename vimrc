@@ -30,14 +30,19 @@ filetype plugin indent on
 " }}}
 " SECTION:  SYMBOL {{{
 
+let s:BSD = v:false
 let s:LINUX = v:false
 let s:MACOS = v:false
 let s:WINDOWS = v:false
 
 if has('linux')
     let s:LINUX = v:true
-elseif has('mac')
-    let s:MACOS = v:true
+elseif has('bsd')
+    if has('mac')
+        let s:MACOS = v:true
+    else
+        let s:BSD = v:true
+    endif
 elseif has('win64')
     let s:WINDOWS = v:true
 endif
@@ -369,7 +374,7 @@ xnoremap <C-L>   "+y
 xnoremap <C-N>   <Nop>
 xnoremap <C-P>   <Nop>
 
-if s:VANILLA_VIM && !empty($TMUX) && !s:MACOS && $XDG_SESSION_TYPE != 'wayland' && $XDG_SESSION_TYPE != 'x11'
+if s:VANILLA_VIM && (s:LINUX || s:BSD) && empty($WAYLAND_DISPLAY) && empty($DISPLAY) && !empty($TMUX)
 xnoremap <C-L>   y<Cmd>call TmuxCopy()<CR>
 endif
 
