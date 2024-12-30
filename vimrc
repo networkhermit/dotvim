@@ -38,11 +38,9 @@ let s:WINDOWS = v:false
 if has('linux')
     let s:LINUX = v:true
 elseif has('bsd')
-    if has('mac')
-        let s:MACOS = v:true
-    else
-        let s:BSD = v:true
-    endif
+    let s:BSD = v:true
+elseif has('mac')
+    let s:MACOS = v:true
 elseif has('win64')
     let s:WINDOWS = v:true
 endif
