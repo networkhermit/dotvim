@@ -13,16 +13,16 @@ function! buildMate#Format() abort " {{{
     if !exists('b:build')
         return
     endif
-    if get(g:, 'build_mate_format_disabled', v:false)
+    if g:->get('build_mate_format_disabled', v:false)
         return
     endif
-    if index(g:build_mate_format_disabled_filetypes, &filetype) >= 0
+    if g:build_mate_format_disabled_filetypes->index(&filetype) >= 0
         return
     endif
     if line2byte(1) is -1
       return
     endif
-    for l:fmt in get(b:build, 'fmt', [])
+    for l:fmt in b:build->get('fmt', [])
         if !executable(l:fmt[0])
             echohl WarningMsg
             echomsg 'formatter ' .. l:fmt[0] .. ' not found'
@@ -61,7 +61,7 @@ function! buildMate#Format() abort " {{{
 endfunction " }}}
 
 function! s:ExecutePostHook(channel) abort " {{{
-    for l:hook in get(getbufvar('#', 'build'), 'post_hook', [])
+    for l:hook in getbufvar('#', 'build')->get('post_hook', [])
         execute l:hook
     endfor
 endfunction " }}}
@@ -77,7 +77,7 @@ function! buildMate#Run() abort " {{{
 endfunction " }}}
 
 function! buildMate#FormatToggle() abort " {{{
-    if get(g:, 'build_mate_format_disabled', v:false)
+    if g:->get('build_mate_format_disabled', v:false)
         unlet! g:build_mate_format_disabled
     else
         let g:build_mate_format_disabled = v:true

@@ -110,7 +110,7 @@ function! basicDelimit#BufferEnable() abort " {{{
 endfunction " }}}
 
 function! basicDelimit#BufferToggle() abort " {{{
-    if get(b:, 'basic_delimit_enabled', v:false)
+    if b:->get('basic_delimit_enabled', v:false)
         call basicDelimit#BufferDisable()
     else
         call basicDelimit#BufferEnable()

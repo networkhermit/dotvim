@@ -283,17 +283,21 @@ endfunction
 " SECTION:  TmuxCopy {{{
 
 function! TmuxCopy() abort
-    let l:result = systemlist('base64 --wrap 0', @")
-    if v:shell_error
-        echohl ErrorMsg
-        echomsg printf('command failed with exit code %s:', v:shell_error)
-        for l:line in l:result
-            echomsg l:line
-        endfor
-        echohl None
-        return
+    if exists('*base64_encode')
+        let l:selection_data = @"->str2list()->list2blob()->base64_encode()
+    else
+        let l:result = systemlist('base64 --wrap 0', @")
+        if v:shell_error
+            echohl ErrorMsg
+            echomsg printf('command failed with exit code %s:', v:shell_error)
+            for l:line in l:result
+                echomsg l:line
+            endfor
+            echohl None
+            return
+        endif
+        let l:selection_data = result[0]
     endif
-    let l:selection_data = result[0]
     let l:escape_sequence = printf("\033]52;c;%s\007", l:selection_data)
     let l:client_tty = empty($SSH_TTY) ? systemlist('tmux display-message -p ''#{client_tty}''')[0] : $SSH_TTY
     call writefile([l:escape_sequence], l:client_tty, 'b')
