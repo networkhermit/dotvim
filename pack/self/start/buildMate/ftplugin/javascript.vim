@@ -14,7 +14,7 @@ setlocal expandtab shiftwidth=2 softtabstop=2 tabstop=8
 let b:build = {}
 
 let b:build['fmt'] = []
-eval b:build['fmt']->add(['standard', '--fix', '--stdin'])
+eval b:build['fmt']->add(['biome', 'format', '--stdin-file-path', 'lang.js'])
 
 let b:build['cmd'] = 'node --throw-deprecation --trace-warnings %:S'
 
