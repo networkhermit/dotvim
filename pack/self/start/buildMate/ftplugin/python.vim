@@ -14,7 +14,7 @@ setlocal expandtab shiftwidth=4 softtabstop=4 tabstop=8
 let b:build = {}
 
 let b:build['fmt'] = []
-eval b:build['fmt']->add(['ruff', 'check', '--fix-only', '-'])
+eval b:build['fmt']->add(['ruff', 'check', '--fix-only', '--quiet', '-'])
 eval b:build['fmt']->add(['ruff', 'format', '-'])
 eval b:build['fmt']->add(['black', '--quiet', '-'])
 
