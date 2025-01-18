@@ -20,7 +20,7 @@ let b:build = {}
 let b:build['fmt'] = []
 eval b:build['fmt']->add(['clang-format', '--assume-filename', 'lang.c', '--style', 'file'])
 
-let s:build_opt = ' -O0 -g3 -Wall -Werror -std=c18 -x c -o %:t:r:S '
+let s:build_opt = ' -O0 -g3 -Wall -Werror -std=c23 -x c -o %:t:r:S '
 let b:build['cmd'] = 'gcc' .. s:build_opt .. '%:S -lm && clang' .. s:build_opt .. '%:S -lm && ./%:t:r:S'
 unlet s:build_opt
 

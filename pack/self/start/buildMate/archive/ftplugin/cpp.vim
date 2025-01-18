@@ -16,7 +16,7 @@ let b:build = {}
 let b:build['fmt'] = []
 eval b:build['fmt']->add(['clang-format', '--assume-filename', 'lang.cpp', '--style', 'file'])
 
-let s:build_opt = ' -O0 -g3 -Wall -Werror -std=c++20 -x c++ -o %:t:r:S '
+let s:build_opt = ' -O0 -g3 -Wall -Werror -std=c++23 -x c++ -o %:t:r:S '
 let b:build['cmd'] = 'g++' .. s:build_opt .. '%:S && clang++' .. s:build_opt .. '%:S && ./%:t:r:S'
 unlet s:build_opt
 

@@ -404,7 +404,7 @@ augroup END
 if s:VANILLA_VIM
     function! s:VimResizedHook() abort
         if !empty($TMUX)
-            if systemlist('tmux display-message -p -t "${TMUX_PANE}" ''#{pane_active}''') == ['0']
+            if systemlist('tmux display-message -p -t "${TMUX_PANE}" ''#{pane_active}''') ==# ['0']
                 doautocmd FocusLost
             else
                 doautocmd FocusGained

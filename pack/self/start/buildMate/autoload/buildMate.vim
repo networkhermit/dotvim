@@ -19,7 +19,7 @@ function! buildMate#Format() abort " {{{
     if g:build_mate_format_disabled_filetypes->index(&filetype) >= 0
         return
     endif
-    if line2byte(1) is -1
+    if line2byte(1) is# -1
       return
     endif
     for l:fmt in b:build->get('fmt', [])
