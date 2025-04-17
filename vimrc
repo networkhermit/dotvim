@@ -123,7 +123,6 @@ set winminwidth=0
 
 set backspace=indent,eol,start
 set breakindentopt=sbr
-set browsedir=buffer
 set cinoptions=g0
 set completeopt+=longest
 set diffopt+=vertical,foldcolumn:0
@@ -135,7 +134,6 @@ set fillchars=vert:│,fold:·,foldsep:│,eob:~
 set foldmethod=syntax
 set foldopen-=hor
 set formatoptions=croqlmBj
-set guioptions=c
 set listchars=tab:⇥\ ,trail:␣,extends:›,precedes:‹,nbsp:⍽
 set mouse=a
 set nrformats=bin,hex
@@ -147,6 +145,11 @@ set switchbuf=uselast
 set viminfo+=n~/.viminfo
 set virtualedit=all
 set wildmode=longest:full,full
+
+if s:VANILLA_VIM
+set browsedir=buffer
+set guioptions=c
+endif
 
 " }}}
 " }}}
