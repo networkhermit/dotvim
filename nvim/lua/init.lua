@@ -101,7 +101,7 @@ local plugins = {
   },
   {
     "nvim-telescope/telescope.nvim",
-    branch = "0.1.x",
+    version = "*",
     cmd = "Telescope",
     config = function()
       require("telescope").setup({
@@ -124,7 +124,6 @@ local plugins = {
           "go",
           "json",
           "lua",
-          "nickel",
           "nix",
           "python",
           "rego",
