@@ -68,16 +68,7 @@ local plugins = {
   {
     "neovim/nvim-lspconfig",
     config = function()
-      local lspconfig = require("lspconfig")
-      local capabilities = require("cmp_nvim_lsp").default_capabilities()
-
-      lspconfig.gopls.setup({ capabilities = capabilities })
-      lspconfig.biome.setup({ capabilities = capabilities })
-      lspconfig.lua_ls.setup({ capabilities = capabilities })
-      lspconfig.nixd.setup({ capabilities = capabilities })
-      lspconfig.ruff.setup({ capabilities = capabilities })
-      lspconfig.rust_analyzer.setup({
-        capabilities = capabilities,
+      vim.lsp.config("rust_analyzer", {
         settings = {
           ["rust-analyzer"] = {
             check = {
@@ -91,8 +82,14 @@ local plugins = {
           },
         },
       })
-      lspconfig.terraformls.setup({ capabilities = capabilities })
-      lspconfig.tflint.setup({ capabilities = capabilities })
+
+      vim.lsp.enable("gopls")
+      vim.lsp.enable("biome")
+      vim.lsp.enable("lua_ls")
+      vim.lsp.enable("nixd")
+      vim.lsp.enable("ruff")
+      vim.lsp.enable("rust_analyzer")
+      vim.lsp.enable("tofu_ls")
     end,
     dependencies = {
       "hrsh7th/cmp-nvim-lsp",
