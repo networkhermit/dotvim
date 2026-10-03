@@ -111,153 +111,41 @@ local plugins = {
   },
   {
     "nvim-treesitter/nvim-treesitter",
+    lazy = false,
     build = ":TSUpdate",
-    cmd = { "TSUpdateSync" },
     config = function()
-      require("nvim-treesitter.configs").setup({
-        ensure_installed = {
-          "bash",
-          "cue",
-          "go",
-          "json",
-          "lua",
-          "nix",
-          "python",
-          "rego",
-          "rust",
-          "terraform",
-          "toml",
-          "yaml",
-        },
-        highlight = { enable = true },
-        incremental_selection = {
-          enable = true,
-          keymaps = {
-            init_selection = "gnn",
-            node_decremental = "grm",
-            node_incremental = "grn",
-            scope_incremental = "grc",
-          },
-        },
-        indent = { enable = true },
-        textobjects = {
-          move = {
-            enable = true,
-            set_jumps = true,
-
-            goto_next_start = {
-              ["]t"] = "@class.outer",
-              ["]f"] = "@function.outer",
-              ["]a"] = "@parameter.inner",
-              ["]o"] = "@conditional.outer",
-              ["]l"] = "@loop.outer",
-              ["]b"] = "@block.outer",
-              ["]s"] = "@call.outer",
-              ["]r"] = "@assignment.outer",
-            },
-            goto_next_end = {
-              ["]T"] = "@class.outer",
-              ["]F"] = "@function.outer",
-              ["]A"] = "@parameter.inner",
-              ["]O"] = "@conditional.outer",
-              ["]L"] = "@loop.outer",
-              ["]B"] = "@block.outer",
-              ["]S"] = "@call.outer",
-              ["]R"] = "@assignment.outer",
-            },
-
-            goto_previous_start = {
-              ["[t"] = "@class.outer",
-              ["[f"] = "@function.outer",
-              ["[a"] = "@parameter.inner",
-              ["[o"] = "@conditional.outer",
-              ["[l"] = "@loop.outer",
-              ["[b"] = "@block.outer",
-              ["[s"] = "@call.outer",
-              ["[r"] = "@assignment.outer",
-            },
-            goto_previous_end = {
-              ["[T"] = "@class.outer",
-              ["[F"] = "@function.outer",
-              ["[A"] = "@parameter.inner",
-              ["[O"] = "@conditional.outer",
-              ["[L"] = "@loop.outer",
-              ["[B"] = "@block.outer",
-              ["[S"] = "@call.outer",
-              ["[R"] = "@assignment.outer",
-            },
-          },
-          select = {
-            enable = true,
-            include_surrounding_whitespace = true,
-            lookahead = true,
-
-            keymaps = {
-              ["at"] = "@class.outer",
-              ["it"] = "@class.inner",
-              ["af"] = "@function.outer",
-              ["if"] = "@function.inner",
-              ["aa"] = "@parameter.outer",
-              ["ia"] = "@parameter.inner",
-              ["ao"] = "@conditional.outer",
-              ["io"] = "@conditional.inner",
-              ["al"] = "@loop.outer",
-              ["il"] = "@loop.inner",
-              ["ab"] = "@block.outer",
-              ["ib"] = "@block.inner",
-              ["as"] = "@call.outer",
-              ["is"] = "@call.inner",
-              ["ar"] = "@assignment.outer",
-              ["ir"] = "@assignment.inner",
-              ["a#"] = "@comment.outer",
-              ["i#"] = "@comment.inner",
-            },
-          },
-          swap = {
-            enable = true,
-
-            swap_next = {
-              [">T"] = "@class.outer",
-              [">F"] = "@function.outer",
-              [">A"] = "@parameter.inner",
-              [">O"] = "@conditional.outer",
-              [">L"] = "@loop.outer",
-              [">B"] = "@block.outer",
-              [">S"] = "@call.outer",
-              [">R"] = "@assignment.outer",
-              [">#"] = "@comment.outer",
-            },
-            swap_previous = {
-              ["<T"] = "@class.outer",
-              ["<F"] = "@function.outer",
-              ["<A"] = "@parameter.inner",
-              ["<O"] = "@conditional.outer",
-              ["<L"] = "@loop.outer",
-              ["<B"] = "@block.outer",
-              ["<S"] = "@call.outer",
-              ["<R"] = "@assignment.outer",
-              ["<#"] = "@comment.outer",
-            },
-          },
-        },
+      require("nvim-treesitter").install({
+        "bash",
+        "cue",
+        "go",
+        "json",
+        "lua",
+        "nix",
+        "python",
+        "rego",
+        "rust",
+        "terraform",
+        "toml",
+        "yaml",
       })
+      vim.api.nvim_create_autocmd("FileType", {
+        group = vim.api.nvim_create_augroup("TreesitterSetup", { clear = true }),
+        callback = function(args)
+          local parser = vim.treesitter.get_parser(args.buf, nil, { error = false })
+          if not parser then
+            return
+          end
 
-      vim.opt.foldenable = false
-      vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
-      vim.opt.foldmethod = "expr"
+          vim.treesitter.start(args.buf)
 
-      local repeatable_move = require("nvim-treesitter.textobjects.repeatable_move")
+          vim.wo.foldenable = false
+          vim.wo.foldexpr = "v:lua.vim.treesitter.foldexpr()"
+          vim.wo.foldmethod = "expr"
 
-      vim.keymap.set({ "n", "x", "o" }, ";", repeatable_move.repeat_last_move)
-      vim.keymap.set({ "n", "x", "o" }, ",", repeatable_move.repeat_last_move_opposite)
-
-      vim.keymap.set({ "n", "x", "o" }, "f", repeatable_move.builtin_f)
-      vim.keymap.set({ "n", "x", "o" }, "F", repeatable_move.builtin_F)
-      vim.keymap.set({ "n", "x", "o" }, "t", repeatable_move.builtin_t)
-      vim.keymap.set({ "n", "x", "o" }, "T", repeatable_move.builtin_T)
+          vim.bo[args.buf].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+        end,
+      })
     end,
-    dependencies = { "nvim-treesitter/nvim-treesitter-textobjects" },
-    event = { "BufNewFile", "BufReadPost" },
   },
 }
 
